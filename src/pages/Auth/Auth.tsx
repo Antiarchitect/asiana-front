@@ -81,7 +81,7 @@ const Auth: FC<IProps> = ({ setToken, token }) => {
           });
         });
     },
-    [tokenAuth],
+    [tokenAuth, redirectUrl],
   );
 
   useEffect(() => {
