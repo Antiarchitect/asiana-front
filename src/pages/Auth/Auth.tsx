@@ -71,8 +71,7 @@ const Auth: FC<IProps> = ({ setToken, token }) => {
         .then(({ data }) => {
           console.log(data.tokenAuth);
           if (redirectUrl) {
-            window.location.href =
-              redirectUrl + `?token=${encoding(data.tokenAuth.token)}`;
+            window.location.href = redirectUrl;
           }
         })
         .catch((res) => {
