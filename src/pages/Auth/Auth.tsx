@@ -9,7 +9,6 @@ import { useHistory } from 'react-router-dom';
 import { setCookie } from '../../services/cookie';
 import { connect } from 'react-redux';
 import { setToken } from '../../actions';
-import { encoding } from '../../services/encoding';
 
 interface IExternalProps {}
 
