@@ -11,6 +11,7 @@ import Footer from '../../components/Footer/Footer';
 import FloatingFooter from '../../components/FloatingFooter/FloatingFooter';
 // @ts-ignore
 import WOW from 'wowjs';
+import { Link } from 'react-router-dom';
 
 interface IExternalProps {}
 
@@ -28,7 +29,9 @@ const Main: FC<IProps> = () => {
       <BlockWithIcons />
       <section className="container page-container--full">
         <MainNews />
-        <Button className="Main-news-button">ПОКАЗАТЬ ВСЕ НОВОСТИ</Button>
+        <Link to="/news">
+          <Button className="Main-news-button">ПОКАЗАТЬ ВСЕ НОВОСТИ</Button>
+        </Link>
       </section>
       <section className="Main-border">
         <section className="Main-video--section">

@@ -3,7 +3,7 @@ import Footer from '../../components/Footer/Footer';
 import FloatingFooter from '../../components/FloatingFooter/FloatingFooter';
 import './News.scss';
 import Breadcrumbs from '../../components/Breadcrumbs/Breadcrumbs';
-import LeftSideBar from '../../components/LeftSideBar/LeftSideBar';
+// import LeftSideBar from '../../components/LeftSideBar/LeftSideBar';
 import NewsCard from '../../components/NewsCard/NewsCard';
 // @ts-ignore
 import WOW from 'wowjs';
@@ -29,15 +29,14 @@ const News: FC<IProps> = () => {
           </div>
           <div>
             <div>
-              <div className="News-leftSidebar-button-title">
+              {/* <div className="News-leftSidebar-button-title">
                 <div className="News-leftSidebar-button">
                   <LeftSideBar />
                 </div>
 
-                <div className="News-title-block">
-                  <NewsCard />
-                </div>
-              </div>
+                
+              </div> */}
+              <NewsCard />
             </div>
           </div>
         </div>

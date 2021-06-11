@@ -21,6 +21,7 @@ import Actions from '../../pages/Actions/Actions';
 import Action from '../../pages/Action/Action';
 import Auth from '../../pages/Auth/Auth';
 import Header from '../Header/Header';
+import NewsDetails from '../../pages/NewsDetails/NewsDetails';
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
             <Route exact path="/contacts" component={Contacts} />
             <Route exact path="/" component={Main} />
             <Route exact path="/news" component={News} />
+            <Route exact path="/news/:id" component={NewsDetails} />
             <Route exact path="/about-company" component={AboutCompany} />
             <Route path="/vacancies" component={Vacancies} />
             <Route path="/car-service" component={CarService} />
