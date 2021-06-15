@@ -1,14 +1,13 @@
-image: node:6.5.0
+stages:
+  - build
 
-pages:
-  stage: deploy
+#---------------------------------------------------front build------------------------------------------------
+
+build front:
+  stage: build
   script:
-  - npm install
-  - npm run build
-  - rm -rf public
-  - mv build public
-  artifacts:
-    paths:
-    - public # mandatory, other folder won't work
+    - npm install
+    - npm run build
   only:
-  - master # or dev, the branch you want to publish
+    - master
+  when: manual
