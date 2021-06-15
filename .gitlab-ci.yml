@@ -1,22 +1,13 @@
-before_script:
-  - yarn install
+stages:
+  - build
 
-cache:
-  key: $CI_PROJECT_ID
-  policy: pull
-  untracked: true
+#---------------------------------------------------front build------------------------------------------------
 
-install:
-  stage: install
-  script: echo 'Warming the cache'
-  cache:
-    key: $CI_PROJECT_ID
-    policy: pull-push
-    paths:
-      - .yarn
-      - node_modules
-      - 'packages/*/node_modules'
-
-lint:
-  stage: test
-  script: yarn run lint:all
+build front:
+  stage: build
+  script:
+    - npm install
+    - npm run build
+  only:
+    - master
+  when: manual
