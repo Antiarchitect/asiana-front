@@ -7,7 +7,7 @@ interface IExternalProps {}
 
 interface IProps extends IExternalProps {}
 
-const RenderItem = ({ item }: any) => {
+const RenderItem = ({ item, news }: any) => {
   const [showAll, setShowAll] = useState(false);
 
   return (
@@ -15,7 +15,17 @@ const RenderItem = ({ item }: any) => {
       className="NewCard wow fadeInRight"
       key={item.title}
       // actions={[<div>Ваша выгода 15%</div>]}
-      extra={<img width={272} alt="logo" src={item.image} />}>
+      extra={
+        <img
+          width={272}
+          alt="logo"
+          src={
+            news.image_url?.includes('http://')
+              ? news.image_url
+              : `http://${news.image_url}`
+          }
+        />
+      }>
       <List.Item.Meta
         title={
           <Link className="NewCard-title" to={`/news/${item.id}`}>
@@ -57,8 +67,8 @@ const NewsCards: FC<IProps> = () => {
       });
   }, []);
 
-  const renderItem = ({ News: item }: any) => {
-    return <RenderItem item={item} />;
+  const renderItem = (item: any) => {
+    return <RenderItem item={item.News} news={item} />;
   };
 
   return (

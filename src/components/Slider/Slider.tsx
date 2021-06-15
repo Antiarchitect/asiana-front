@@ -42,10 +42,18 @@ export default class SimpleSlider extends Component {
             <Promotions title="ознакомьтесь с акциями" />
           </div>
           <Slider {...settings}>
-            {this.state.data.map(({ Action: item }: any) => (
-              <div key={item.id} className="Slider-slide">
-                <a target="_blank" href="/action/1">
-                  <img className="slider1" src={item.image} alt="" />
+            {this.state.data.map((item: any) => (
+              <div key={item.Action.id} className="Slider-slide">
+                <a target="_blank" href="/actions">
+                  <img
+                    className="slider1"
+                    src={
+                      item.image_url?.includes('http://')
+                        ? item.image_url
+                        : `http://${item.image_url}`
+                    }
+                    alt=""
+                  />
                 </a>
               </div>
             ))}
