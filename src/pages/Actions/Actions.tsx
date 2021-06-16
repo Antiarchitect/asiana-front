@@ -3,7 +3,6 @@ import { FC, useEffect, useState } from 'react';
 import './Actions.scss';
 // @ts-ignore
 import WOW from 'wowjs';
-import { splitValue } from '../../services/sptilValue';
 import { Link } from 'react-router-dom';
 
 interface IExternalProps {}
