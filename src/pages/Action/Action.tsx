@@ -1,9 +1,10 @@
-import { Row, Spin } from 'antd';
+import { Avatar, Card, Col, Row, Spin } from 'antd';
 import { FC, useEffect, useState } from 'react';
 import './Action.scss';
 // @ts-ignore
 import WOW from 'wowjs';
 import { RouteComponentProps } from 'react-router-dom';
+import Meta from 'antd/lib/card/Meta';
 
 interface IExternalProps {}
 
@@ -31,41 +32,38 @@ const Action: FC<IProps> = ({ match }) => {
   }, []);
 
   return (
-    <Spin spinning={loading}>
+    <Spin spinning={false}>
       <div className="bg-white">
         <div className="container page-with-header">
           <div className="pt-5">
             <h1 className="Action-title">Акция №{id}</h1>
-            <Row justify="space-between">
-              <div dangerouslySetInnerHTML={{ __html: action?.content }}></div>
-              {/* <Col className="Action-column--left" span={8}>
-                <img
-                  className="Action-image mb-3 wow zoomIn"
-                  src={action}
-                  alt="action"
+            {loading || !action ? (
+              <Card style={{ width: 300, marginTop: 16 }} loading={loading}>
+                <Meta
+                  avatar={
+                    <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
+                  }
+                  title="Card title"
+                  description="This is the description"
                 />
-              </Col>
-              <Col className="Action-column--right wow fadeIn" span={16}>
-                <h3 className="mb-3 text-center">Заголовок</h3>
-                <p>
-                  Lorem Ipsum - это текст-"рыба", часто используемый в печати и
-                  вэб-дизайне. Lorem Ipsum является стандартной "рыбой" для
-                  текстов на латинице с начала XVI века. В то время некий
-                  безымянный печатник создал большую коллекцию размеров и форм
-                  шрифтов, используя Lorem Ipsum для распечатки образцов. Lorem
-                  Ipsum - это текст-"рыба", часто используемый в печати и
-                  вэб-дизайне. Lorem Ipsum является стандартной "рыбой" для
-                  текстов на латинице с начала XVI века. В то время некий
-                  безымянный печатник создал большую коллекцию размеров и форм
-                  шрифтов, используя Lorem Ipsum для распечатки образцов. Lorem
-                  Ipsum - это текст-"рыба", часто используемый в печати и
-                  вэб-дизайне. Lorem Ipsum является стандартной "рыбой" для
-                  текстов на латинице с начала XVI века. В то время некий
-                  безымянный печатник создал большую коллекцию размеров и форм
-                  шрифтов, используя Lorem Ipsum для распечатки образцов.
-                </p>
-              </Col> */}
-            </Row>
+              </Card>
+            ) : (
+              <Row justify="space-between">
+                {/* <div dangerouslySetInnerHTML={{ __html: action?.content }}></div> */}
+                <Col className="Action-column--left pr-2" span={8}>
+                  <img
+                    className="Action-image wow zoomIn"
+                    src={action.image_url}
+                    alt="action"
+                  />
+                </Col>
+                <Col className="Action-column--right wow fadeIn" span={16}>
+                  <Card style={{ height: '100%' }} title={action?.title}>
+                    <p>{action?.content_text}</p>
+                  </Card>
+                </Col>
+              </Row>
+            )}
           </div>
         </div>
       </div>

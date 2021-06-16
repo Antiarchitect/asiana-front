@@ -2,6 +2,11 @@
   font-family: 'Roboto Bold';
 }
 
+.Action-image {
+  width: 100%;
+  display: inline-block;
+}
+
 .Action-column {
   &--left {
     max-width: 400px;

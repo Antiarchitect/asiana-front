@@ -1,9 +1,10 @@
-import { Col, Row, Spin, Tooltip } from 'antd';
+import { Button, Col, Row, Spin, Tooltip } from 'antd';
 import { FC, useEffect, useState } from 'react';
 import './Actions.scss';
 // @ts-ignore
 import WOW from 'wowjs';
 import { splitValue } from '../../services/sptilValue';
+import { Link } from 'react-router-dom';
 
 interface IExternalProps {}
 
@@ -35,36 +36,70 @@ const Actions: FC<IProps> = () => {
         <div className="container page-with-header">
           <div className="pt-3">
             <h1 className="Actions-title">Акции</h1>
-            <Row>
-              {actions.map(({ Action: action }: any) => {
+            <div>
+              {actions.map((item: any) => {
+                const { Action: action } = item;
+                console.log(item);
                 return (
                   <Col
                     key={action.id}
-                    className="Actions-column wow fadeInLeft"
-                    span={8}>
+                    className="Actions-column wow fadeInLeft mb-2"
+                    span={24}>
                     <div className="Actions-card">
-                      <a target="_blank" href="/action/1">
-                        <img
-                          className="Actions-image mb-3"
-                          src={action.image}
-                          alt="action"
-                        />
-                        <Tooltip title={action.content} placement="bottom">
-                          <div
-                            style={{ fontWeight: 'bold' }}
-                            dangerouslySetInnerHTML={{
-                              __html: action.preview,
-                            }}></div>
-                        </Tooltip>
+                      <div className="d-flex justify-content-between">
+                        <div className="d-flex">
+                          <Link className="d-flex" to={`/action/${action?.id}`}>
+                            <img
+                              className="Actions-image mr-2"
+                              src={item.image_url}
+                              alt="action"
+                            />
+                          </Link>
+
+                          <div className="d-flex flex-column justify-content-between">
+                            <div>
+                              <Link
+                                className="d-flex mb-2 Action-title--link"
+                                to={`/action/${action?.id}`}>
+                                <h4 style={{ fontWeight: 'bold' }}>
+                                  {action?.title}
+                                </h4>
+                              </Link>
+                              <Tooltip
+                                title={action.content}
+                                placement="bottom">
+                                <div
+                                  dangerouslySetInnerHTML={{
+                                    __html: action.preview,
+                                  }}></div>
+                              </Tooltip>
+                            </div>
+                            <Link
+                              className="d-flex"
+                              to={`/action/${action?.id}`}>
+                              <Button
+                                type="dashed"
+                                style={{
+                                  borderTop: 'none',
+                                  borderLeft: 'none',
+                                  borderRight: 'none',
+                                  padding: 0,
+                                }}
+                                danger>
+                                Подробнее
+                              </Button>
+                            </Link>
+                          </div>
+                        </div>
                         <Row justify="end">
                           <div>{action.modified}</div>
                         </Row>
-                      </a>
+                      </div>
                     </div>
                   </Col>
                 );
               })}
-            </Row>
+            </div>
           </div>
         </div>
       </div>

@@ -166,14 +166,8 @@ const Header: FC<IProps> = () => {
 
   const handleChangeStatus = useCallback((status: boolean) => {
     return (e: any) => {
-      const className = e.target.classList.contains('Header-burger--container');
-      const classNameBurgerButton = e.target.classList.contains(
-        'Header-burger-button',
-      );
-
-      if (className || classNameBurgerButton) {
-        setOpenDrawer(status);
-      }
+      e.stopPropagation();
+      setOpenDrawer(status);
     };
   }, []);
 

@@ -3,14 +3,12 @@
 }
 
 .Actions-column {
-  max-width: 400px;
-
   h3 {
     font-weight: bold;
   }
 
   .Actions-card {
-    width: 95%;
+    width: 100%;
     padding: 20px;
     transition: 0.3s;
     border-radius: 6px;
@@ -22,11 +20,20 @@
     }
   }
 
+  .Action-title--link h4 {
+    color: #ff3f00;
+
+    &:hover {
+      color: #ffb000;
+    }
+  }
+
   .Actions-image,
   img {
     display: block;
     width: 100% !important;
-    height: 280px;
+    height: 200px;
+    max-width: 250px;
     border-radius: 6px;
   }
 
