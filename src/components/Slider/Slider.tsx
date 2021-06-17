@@ -3,7 +3,6 @@ import './Slider.scss';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import image from '../../assets/Poprobui370x370.jpg';
 import Promotions from '../Promotions/Promotions';
 import { Spin } from 'antd';
 
