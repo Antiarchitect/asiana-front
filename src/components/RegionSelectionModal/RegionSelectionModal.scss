@@ -1,40 +1,44 @@
 .RegionSelectionModal {
   border-radius: 1px;
-  width: 65%;
-  height: 85%;
-  background-color: white;
+  min-width: 60%;
   padding: 20px;
-  border: 1px solid #888;
-}
 
-.RegionSelectionModal-border {
-  border-radius: 1px;
-  width: 860px;
-  height: 270px;
-  background-color: white;
-  padding: 20px;
-  border: 1px solid #888;
-  margin-left: 48px;
+  .font-weight {
+    span {
+      font-weight: bold;
+    }
+  }
 }
 
 .RegionSelectionModal-item {
   font-size: 18px;
   font-weight: 700;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   margin-bottom: 15px;
 }
 
 .RegionSelectionModal-Сontainer {
   display: flex;
-  margin-top: 15px;
+
+  button {
+    padding: 0;
+    margin-right: 10px;
+
+    &:hover {
+      color: #de2a1b !important;
+    }
+  }
 }
 
 .RegionSelectionModal-Block {
-  margin-left: 80px;
-  a {
+  max-height: 200px;
+
+  button {
     display: block;
+    padding: 0;
+
+    &:hover {
+      color: #de2a1b !important;
+    }
   }
 }
 

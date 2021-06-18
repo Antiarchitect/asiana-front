@@ -1,3 +1,4 @@
+import { CityType } from './components/SubHeader/SubHeader';
 import { setLocalStorage } from './services/localStorage';
 import { ContactType, ProductType } from './typings/graphql';
 
@@ -7,12 +8,14 @@ export interface InitialStateType {
   cartProducts: Array<CartType>;
   token: null | string;
   address: ContactType | null;
+  city: CityType | null;
 }
 
 const initialState: InitialStateType = {
   cartProducts: [],
   token: null,
   address: null,
+  city: null,
 };
 
 function sliceCart(cart: CartType[], index: number) {
@@ -24,6 +27,11 @@ const reducer = (
   action: { type: string; payload: any },
 ) => {
   switch (action.type) {
+    case 'SET_CITY':
+      return {
+        ...state,
+        city: action.payload,
+      };
     case 'SET_ADDRESS':
       return {
         ...state,

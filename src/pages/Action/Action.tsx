@@ -1,16 +1,19 @@
-import { Avatar, Card, Col, Row, Spin } from 'antd';
+import { Card, Col, Empty, Row, Spin } from 'antd';
 import { FC, useEffect, useState } from 'react';
 import './Action.scss';
 // @ts-ignore
 import WOW from 'wowjs';
 import { RouteComponentProps } from 'react-router-dom';
-import Meta from 'antd/lib/card/Meta';
+import { CityType } from '../../components/SubHeader/SubHeader';
+import { connect } from 'react-redux';
 
 interface IExternalProps {}
 
-interface IProps extends IExternalProps, RouteComponentProps<{ id: string }> {}
+interface IProps extends IExternalProps, RouteComponentProps<{ id: string }> {
+  city: CityType | null;
+}
 
-const Action: FC<IProps> = ({ match }) => {
+const Action: FC<IProps> = ({ match, city }) => {
   const { id } = match.params;
   const [loading, setLoading] = useState(false);
   const [action, setAction] = useState<any>(null);
@@ -22,10 +25,14 @@ const Action: FC<IProps> = ({ match }) => {
     )
       .then((response) => response.json())
       .then((data) => {
-        setAction(data.data);
+        setAction(
+          data.data.platforms
+            ? data.data.platforms.includes(city?.name)
+            : data.data,
+        );
         setLoading(false);
       });
-  }, [setLoading, setAction, id]);
+  }, [setLoading, setAction, id, city]);
 
   useEffect(() => {
     new WOW.WOW().init();
@@ -37,32 +44,26 @@ const Action: FC<IProps> = ({ match }) => {
         <div className="container page-with-header">
           <div className="pt-5">
             <h1 className="Action-title">Акция №{id}</h1>
-            {loading || !action ? (
-              <Card style={{ width: 300, marginTop: 16 }} loading={loading}>
-                <Meta
-                  avatar={
-                    <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
-                  }
-                  title="Card title"
-                  description="This is the description"
-                />
-              </Card>
+            {!action ? (
+              <Empty />
             ) : (
-              <Row justify="space-between">
-                {/* <div dangerouslySetInnerHTML={{ __html: action?.content }}></div> */}
-                <Col className="Action-column--left pr-2" span={8}>
-                  <img
-                    className="Action-image wow zoomIn"
-                    src={action.image_url}
-                    alt="action"
-                  />
-                </Col>
-                <Col className="Action-column--right wow fadeIn" span={16}>
-                  <Card style={{ height: '100%' }} title={action?.title}>
-                    <p>{action?.content_text}</p>
-                  </Card>
-                </Col>
-              </Row>
+              <Card loading={loading}>
+                <Row justify="space-between">
+                  {/* <div dangerouslySetInnerHTML={{ __html: action?.content }}></div> */}
+                  <Col className="Action-column--left pr-2" span={8}>
+                    <img
+                      className="Action-image wow zoomIn"
+                      src={action.image_url}
+                      alt="action"
+                    />
+                  </Col>
+                  <Col className="Action-column--right wow fadeIn" span={16}>
+                    <Card style={{ height: '100%' }} title={action?.title}>
+                      <p>{action?.content?.replace(/<\/?[a-zA-Z]+>/gi, '')}</p>
+                    </Card>
+                  </Col>
+                </Row>
+              </Card>
             )}
           </div>
         </div>
@@ -71,4 +72,8 @@ const Action: FC<IProps> = ({ match }) => {
   );
 };
 
-export default Action;
+const mapStateToProps = (state: any) => ({
+  city: state.city,
+});
+
+export default connect(mapStateToProps)(Action);

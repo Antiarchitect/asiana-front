@@ -1,3 +1,4 @@
+import { CityType } from './components/SubHeader/SubHeader';
 import { ContactType, ProductType } from './typings/graphql';
 
 export const setToken = (token: string) => {
@@ -42,5 +43,12 @@ export const setAddress = (address: ContactType) => {
   return {
     type: 'SET_ADDRESS',
     payload: address,
+  };
+};
+
+export const setCity = (city: CityType) => {
+  return {
+    type: 'SET_CITY',
+    payload: city,
   };
 };

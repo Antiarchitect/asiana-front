@@ -1,11 +1,16 @@
-import { Spin } from 'antd';
+import { Empty, Spin } from 'antd';
 import { FC, useEffect, useState } from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { InitialStateType } from '../../redusers';
+import { CityType } from '../SubHeader/SubHeader';
 import './MainNews.scss';
 
 interface IExternalProps {}
 
-interface IProps extends IExternalProps {}
+interface IProps extends IExternalProps {
+  city: CityType | null;
+}
 
 // interface NewsType {
 //   id: number;
@@ -49,7 +54,7 @@ interface IProps extends IExternalProps {}
 //   )
 // }
 
-const MainNews: FC<IProps> = () => {
+const MainNews: FC<IProps> = ({ city }) => {
   const [news, setNews] = useState<any>([]);
   const [loading, setLoading] = useState(false);
 
@@ -60,33 +65,49 @@ const MainNews: FC<IProps> = () => {
     )
       .then((response) => response.json())
       .then((data) => {
-        setNews(data.data);
+        setNews(
+          data.data.filter((item: any) =>
+            city
+              ? item.News.platforms
+                ? item.News.platforms.includes(city?.name)
+                : true
+              : true,
+          ),
+        );
         setLoading(false);
       });
-  }, []);
+  }, [city]);
 
   return (
     <Spin spinning={loading}>
       <div>
         <h1 className="MainNews-heading">НОВОСТИ КОМПАНИИ</h1>
         <div className="MainNews-container">
-          {news.map(({ News: news }: any) => {
-            return (
-              <div
-                key={news.id}
-                className="MainNews-block wow slideInLeft"
-                data-wow-duration="2s">
-                <Link className="MainNews-link" to={`/news/${news.id}`}>
-                  {news.title}
-                </Link>
-                <div dangerouslySetInnerHTML={{ __html: news.preview }}></div>
-              </div>
-            );
-          })}
+          {news.length ? (
+            news.map(({ News: news }: any) => {
+              return (
+                <div
+                  key={news.id}
+                  className="MainNews-block wow slideInLeft"
+                  data-wow-duration="2s">
+                  <Link className="MainNews-link" to={`/news/${news.id}`}>
+                    {news.title}
+                  </Link>
+                  <div dangerouslySetInnerHTML={{ __html: news.preview }}></div>
+                </div>
+              );
+            })
+          ) : (
+            <Empty />
+          )}
         </div>
       </div>
     </Spin>
   );
 };
 
-export default MainNews;
+const mapStateToProps = (state: InitialStateType) => ({
+  city: state.city,
+});
+
+export default connect(mapStateToProps)(MainNews);

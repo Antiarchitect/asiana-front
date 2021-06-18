@@ -8,13 +8,18 @@ import Footer from '../../components/Footer/Footer';
 import FloatingFooter from '../../components/FloatingFooter/FloatingFooter';
 import { RouteComponentProps } from 'react-router-dom';
 import { Typography, Card } from 'antd';
+import { InitialStateType } from '../../redusers';
+import { connect } from 'react-redux';
+import { CityType } from '../../components/SubHeader/SubHeader';
 const { Text } = Typography;
 
 interface IExternalProps {}
 
-interface IProps extends IExternalProps, RouteComponentProps<{ id: string }> {}
+interface IProps extends IExternalProps, RouteComponentProps<{ id: string }> {
+  city: CityType | null;
+}
 
-const NewsDetails: FC<IProps> = ({ match }) => {
+const NewsDetails: FC<IProps> = ({ match, city }) => {
   const { id } = match.params;
   const [loading, setLoading] = useState(false);
   const [news, setNews] = useState<any>(null);
@@ -26,10 +31,14 @@ const NewsDetails: FC<IProps> = ({ match }) => {
     )
       .then((response) => response.json())
       .then((data) => {
-        setNews(data.data);
+        setNews(
+          data.data.platforms
+            ? data.data.platforms.includes(city?.name)
+            : data.data,
+        );
         setLoading(false);
       });
-  }, [setLoading, id]);
+  }, [setLoading, id, city]);
 
   useEffect(() => {
     new WOW.WOW().init();
@@ -46,29 +55,33 @@ const NewsDetails: FC<IProps> = ({ match }) => {
               </div>
               <h1 className="News-title">{news?.title || `Новость №${id}`}</h1>
             </div>
-            <div className="flex-1">
-              <div>
-                <div className="News-leftSidebar-button-title">
-                  <div className="News-leftSidebar-button">
-                    <LeftSideBar />
+            {Boolean(news) ? (
+              <div className="flex-1">
+                <div>
+                  <div className="News-leftSidebar-button-title">
+                    <div className="News-leftSidebar-button">
+                      <LeftSideBar />
+                    </div>
+                    {!news ? (
+                      <Empty />
+                    ) : (
+                      <Card style={{ flex: 1 }}>
+                        <Row className="mb-3" justify="space-between">
+                          <Text strong>{news.title}</Text>
+                          <Text type="secondary">{news.modified}</Text>
+                        </Row>
+                        <div
+                          dangerouslySetInnerHTML={{
+                            __html: news.content,
+                          }}></div>
+                      </Card>
+                    )}
                   </div>
-                  {!news ? (
-                    <Empty />
-                  ) : (
-                    <Card style={{ flex: 1 }}>
-                      <Row className="mb-3" justify="space-between">
-                        <Text strong>{news.title}</Text>
-                        <Text type="secondary">{news.modified}</Text>
-                      </Row>
-                      <div
-                        dangerouslySetInnerHTML={{
-                          __html: news.content,
-                        }}></div>
-                    </Card>
-                  )}
                 </div>
               </div>
-            </div>
+            ) : (
+              <Empty />
+            )}
           </div>
         </div>
         <Footer />
@@ -78,4 +91,8 @@ const NewsDetails: FC<IProps> = ({ match }) => {
   );
 };
 
-export default NewsDetails;
+const mapStateToProps = (state: InitialStateType) => ({
+  city: state.city,
+});
+
+export default connect(mapStateToProps)(NewsDetails);

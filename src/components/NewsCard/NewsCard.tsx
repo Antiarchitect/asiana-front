@@ -2,10 +2,15 @@ import { FC, useEffect, useState } from 'react';
 import { Button, List, Spin, Tooltip } from 'antd';
 import './NewCard.scss';
 import { Link } from 'react-router-dom';
+import { CityType } from '../SubHeader/SubHeader';
+import { InitialStateType } from '../../redusers';
+import { connect } from 'react-redux';
 
 interface IExternalProps {}
 
-interface IProps extends IExternalProps {}
+interface IProps extends IExternalProps {
+  city: CityType | null;
+}
 
 const RenderItem = ({ item, news }: any) => {
   const [showAll, setShowAll] = useState(false);
@@ -51,7 +56,7 @@ const RenderItem = ({ item, news }: any) => {
   );
 };
 
-const NewsCards: FC<IProps> = () => {
+const NewsCards: FC<IProps> = ({ city }) => {
   const [news, setNews] = useState<any>([]);
   const [loading, setLoading] = useState(false);
 
@@ -62,10 +67,18 @@ const NewsCards: FC<IProps> = () => {
     )
       .then((response) => response.json())
       .then((data) => {
-        setNews(data.data);
+        setNews(
+          data.data.filter((item: any) =>
+            city
+              ? item.News.platforms
+                ? item.News.platforms.includes(city?.name)
+                : true
+              : true,
+          ),
+        );
         setLoading(false);
       });
-  }, []);
+  }, [city]);
 
   const renderItem = (item: any) => {
     return <RenderItem item={item.News} news={item} />;
@@ -89,4 +102,8 @@ const NewsCards: FC<IProps> = () => {
   );
 };
 
-export default NewsCards;
+const mapStateToProps = (state: InitialStateType) => ({
+  city: state.city,
+});
+
+export default connect(mapStateToProps)(NewsCards);
