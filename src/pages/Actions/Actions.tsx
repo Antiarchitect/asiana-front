@@ -16,7 +16,7 @@ const Actions: FC<IProps> = () => {
   useEffect(() => {
     setLoading(true);
     fetch(
-      'http://test-rest-api.site/api/1/site/action/list/?token=b4831f21df6202f5bacade4b7bbc3e5c',
+      'https://test-rest-api.site/api/1/site/action/list/?token=b4831f21df6202f5bacade4b7bbc3e5c',
     )
       .then((response) => response.json())
       .then((data) => {
@@ -38,7 +38,7 @@ const Actions: FC<IProps> = () => {
             <div>
               {actions.map((item: any) => {
                 const { Action: action } = item;
-                console.log(item);
+
                 return (
                   <Col
                     key={action.id}

@@ -18,7 +18,7 @@ const Action: FC<IProps> = ({ match }) => {
   useEffect(() => {
     setLoading(true);
     fetch(
-      `http://test-rest-api.site/api/1/site/action/${id}/get/?token=b4831f21df6202f5bacade4b7bbc3e5c`,
+      `https://test-rest-api.site/api/1/site/action/${id}/get/?token=b4831f21df6202f5bacade4b7bbc3e5c`,
     )
       .then((response) => response.json())
       .then((data) => {

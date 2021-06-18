@@ -15,7 +15,7 @@ export default class SimpleSlider extends Component {
   componentDidMount() {
     this.setState({ loading: true });
     fetch(
-      'http://test-rest-api.site/api/1/site/action/list/?token=b4831f21df6202f5bacade4b7bbc3e5c',
+      'https://test-rest-api.site/api/1/site/action/list/?token=b4831f21df6202f5bacade4b7bbc3e5c',
     )
       .then((response) => response.json())
       .then((data) => {
@@ -47,9 +47,9 @@ export default class SimpleSlider extends Component {
                   <img
                     className="slider1"
                     src={
-                      item.image_url?.includes('http://')
+                      item.image_url?.includes('https://')
                         ? item.image_url
-                        : `http://${item.image_url}`
+                        : `https://${item.image_url}`
                     }
                     alt=""
                   />

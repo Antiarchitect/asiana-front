@@ -20,9 +20,9 @@ const RenderItem = ({ item, news }: any) => {
           width={272}
           alt="logo"
           src={
-            news.image_url?.includes('http://')
+            news.image_url?.includes('https://')
               ? news.image_url
-              : `http://${news.image_url}`
+              : `https://${news.image_url}`
           }
         />
       }>
@@ -58,7 +58,7 @@ const NewsCards: FC<IProps> = () => {
   useEffect(() => {
     setLoading(true);
     fetch(
-      'http://test-rest-api.site/api/1/site/new/list/?token=b4831f21df6202f5bacade4b7bbc3e5c',
+      'https://test-rest-api.site/api/1/site/new/list/?token=b4831f21df6202f5bacade4b7bbc3e5c',
     )
       .then((response) => response.json())
       .then((data) => {
