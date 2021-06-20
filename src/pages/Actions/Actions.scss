@@ -43,3 +43,17 @@
     color: black;
   }
 }
+
+.style-Button {
+  background-color: rgb(222, 42, 27);
+  font-weight: bold;
+  font-size: 16px;
+  color: white;
+
+  &.ant-btn:hover,
+  &.ant-btn:focus {
+    background-color: orangered;
+    color: white;
+    border-color: orangered;
+  }
+}

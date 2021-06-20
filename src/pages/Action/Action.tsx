@@ -26,8 +26,8 @@ const Action: FC<IProps> = ({ match, city }) => {
       .then((response) => response.json())
       .then((data) => {
         setAction(
-          data.data.platforms
-            ? data.data.platforms.includes(city?.name)
+          data.data.cities?.length
+            ? data.data.cities.includes(city?.id)
             : data.data,
         );
         setLoading(false);

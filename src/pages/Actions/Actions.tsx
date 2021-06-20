@@ -28,8 +28,8 @@ const Actions: FC<IProps> = ({ city }) => {
         setActions(
           data.data.filter((item: any) =>
             city
-              ? item.Action.platforms
-                ? item.Action.platforms.includes(city?.name)
+              ? item.Action.cities?.length
+                ? item.Action.cities.includes(city?.id)
                 : true
               : true,
           ),
@@ -89,6 +89,7 @@ const Actions: FC<IProps> = ({ city }) => {
                                     }}></div>
                                 </Tooltip>
                               </div>
+
                               <Link
                                 className="d-flex"
                                 to={`/action/${action?.id}`}>
@@ -105,10 +106,13 @@ const Actions: FC<IProps> = ({ city }) => {
                                 </Button>
                               </Link>
                             </div>
+                            <Row justify="end">
+                              <div>{action.modified}</div>
+                            </Row>
                           </div>
-                          <Row justify="end">
-                            <div>{action.modified}</div>
-                          </Row>
+                          <Button className="Main-news-button style-Button ">
+                            ЗАПИСАТЬСЯ НА ТО
+                          </Button>
                         </div>
                       </div>
                     </Col>

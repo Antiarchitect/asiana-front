@@ -68,8 +68,8 @@ const MainNews: FC<IProps> = ({ city }) => {
         setNews(
           data.data.filter((item: any) =>
             city
-              ? item.News.platforms
-                ? item.News.platforms.includes(city?.name)
+              ? item.News.cities?.length
+                ? item.News.cities.includes(city?.id)
                 : true
               : true,
           ),
