@@ -1,7 +1,6 @@
 import { FC, useCallback, useEffect, useMemo, useState } from 'react';
-import { Dropdown, Menu, Tabs } from 'antd';
+import { Dropdown, Menu, Spin, Tabs } from 'antd';
 import Breadcrumbs from '../../components/Breadcrumbs/Breadcrumbs';
-import Map from '../../components/Map/Map';
 import Footer from '../../components/Footer/Footer';
 import FloatingFooter from '../../components/FloatingFooter/FloatingFooter';
 import './Contacts.scss';
@@ -18,6 +17,7 @@ import Button from '../../components/Button/Button';
 import { COLORS } from '../../constants';
 // @ts-ignore
 import WOW from 'wowjs';
+import { Placemark, YMaps, Map } from 'react-yandex-maps';
 
 const { TabPane } = Tabs;
 
@@ -53,11 +53,49 @@ const tabs = [
 ];
 
 const Contacts: FC<IProps> = () => {
+  const [contacts, setContacts] = useState<any>([]);
+  const [loading, setLoading] = useState(false);
+  const [contactsTab, setContactsTab] = useState<any>([]);
+  const [loadingTabs, setLoadingTabs] = useState(false);
+
+  const [activeTab, setActiveTab] = useState<any>('1');
+
+  // const coordinates = useMemo(() => {
+  //   return contacts.map(({ Location }: any) => ([
+  //     Number(Location.lat), Number(Location.lon)
+  //   ]))
+  // }, [contacts])
+
+  useEffect(() => {
+    setLoading(true);
+    fetch(
+      'https://test-rest-api.site/api/1/mobile/location/list/?token=b4831f21df6202f5bacade4b7bbc3e5c',
+    )
+      .then((response) => response.json())
+      .then((data) => setContacts(data.data))
+      .finally(() => setLoading(false));
+  }, []);
+
+  useEffect(() => {
+    setLoadingTabs(true);
+    const tabs: any = {
+      '1': 'shop',
+      '2': 'autoservice',
+      '3': 'carship',
+      '4': 'shop',
+      '5': 'shop',
+    };
+    fetch(
+      `https://test-rest-api.site/api/1/mobile/location/list/?token=b4831f21df6202f5bacade4b7bbc3e5c&location_type=${tabs[activeTab]}`,
+    )
+      .then((response) => response.json())
+      .then((data) => setContactsTab(Array.isArray(data.data) ? data.data : []))
+      .finally(() => setLoadingTabs(false));
+  }, [activeTab]);
+
   useEffect(() => {
     new WOW.WOW().init();
   }, []);
-
-  const [activeTab, setActiveTab] = useState('1');
 
   const handleClickMenu = useCallback(
     (item) => {
@@ -95,7 +133,36 @@ const Contacts: FC<IProps> = () => {
             <section className="section-leftSideBar-map">
               <LeftSideBar />
               <div>
-                <Map className="Contacts-map" />
+                <Spin spinning={loading}>
+                  <YMaps>
+                    <Map
+                      defaultState={{
+                        center: [55.751574, 37.573856],
+                        zoom: 5,
+                      }}
+                      className="Contacts-map">
+                      {contacts.map(({ Location }: any, index: number) => (
+                        <Placemark
+                          // options={{ hasBalloon: true, openEmptyBalloon: true,
+                          //   iconLayout: 'default#image',
+                          //   // Custom image for the placemark icon.
+                          //   iconImageHref: myIcon,
+                          //   // The size of the placemark.
+                          //   iconImageSize: [30, 42],
+                          //   // The offset of the upper left corner of the icon relative
+                          //   // to its "tail" (the anchor point).
+                          //   iconImageOffset: [-3, -42],
+                          // }}
+                          key={index}
+                          geometry={[
+                            Number(Location.lat),
+                            Number(Location.lon),
+                          ]}
+                        />
+                      ))}
+                    </Map>
+                  </YMaps>
+                </Spin>
                 <div className="Contacts-item-div">
                   <div>
                     <div className="Contacts-item-block">
@@ -121,13 +188,18 @@ const Contacts: FC<IProps> = () => {
                               </span>
                             }
                             key={item.id}>
-                            <div>
-                              <ContactCard
-                                title="Богатырский проспект"
-                                phone="+79837777983"
-                                date="пн-вс: 09:00-21:00"
-                              />
-                            </div>
+                            <Spin spinning={loadingTabs}>
+                              <div style={{ minHeight: 50 }}>
+                                {contactsTab.map((item: any) => (
+                                  <ContactCard
+                                    key={item.Location.id}
+                                    title={item.Location.title}
+                                    phone={item.Location.phones}
+                                    date="пн-вс: 09:00-21:00"
+                                  />
+                                ))}
+                              </div>
+                            </Spin>
                           </TabPane>
                         ))}
                       </Tabs>
