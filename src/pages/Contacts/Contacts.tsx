@@ -18,6 +18,10 @@ import { COLORS } from '../../constants';
 // @ts-ignore
 import WOW from 'wowjs';
 import { Placemark, YMaps, Map } from 'react-yandex-maps';
+import ContactsModal from '../../components/ContactsModal/ContactsModal';
+import shopIcon from '../../assets/autoshop.png';
+import stoIcon from '../../assets/autoservice.png';
+import dealerIcon from '../../assets/autoshow.png';
 
 const { TabPane } = Tabs;
 
@@ -57,7 +61,7 @@ const Contacts: FC<IProps> = () => {
   const [loading, setLoading] = useState(false);
   const [contactsTab, setContactsTab] = useState<any>([]);
   const [loadingTabs, setLoadingTabs] = useState(false);
-
+  const [activeContact, setContact] = useState<any>(null);
   const [activeTab, setActiveTab] = useState<any>('1');
 
   // const coordinates = useMemo(() => {
@@ -80,8 +84,8 @@ const Contacts: FC<IProps> = () => {
     setLoadingTabs(true);
     const tabs: any = {
       '1': 'shop',
-      '2': 'autoservice',
-      '3': 'carship',
+      '2': 'sto',
+      '3': 'dealer',
       '4': 'shop',
       '5': 'shop',
     };
@@ -119,6 +123,12 @@ const Contacts: FC<IProps> = () => {
     </Menu>
   );
 
+  const icons = {
+    shop: shopIcon,
+    sto: stoIcon,
+    dealer: dealerIcon,
+  };
+
   return (
     <div className="page-with-header">
       <div className="container">
@@ -141,25 +151,37 @@ const Contacts: FC<IProps> = () => {
                         zoom: 5,
                       }}
                       className="Contacts-map">
-                      {contacts.map(({ Location }: any, index: number) => (
-                        <Placemark
-                          // options={{ hasBalloon: true, openEmptyBalloon: true,
-                          //   iconLayout: 'default#image',
-                          //   // Custom image for the placemark icon.
-                          //   iconImageHref: myIcon,
-                          //   // The size of the placemark.
-                          //   iconImageSize: [30, 42],
-                          //   // The offset of the upper left corner of the icon relative
-                          //   // to its "tail" (the anchor point).
-                          //   iconImageOffset: [-3, -42],
-                          // }}
-                          key={index}
-                          geometry={[
-                            Number(Location.lat),
-                            Number(Location.lon),
-                          ]}
+                      {Boolean(activeContact) && (
+                        <ContactsModal
+                          onClose={() => setContact(null)}
+                          contact={activeContact}
                         />
-                      ))}
+                      )}
+                      {contacts.map((item: any, index: number) => {
+                        const { Location } = item;
+                        return (
+                          <Placemark
+                            onClick={() => setContact(item)}
+                            options={{
+                              hasBalloon: true,
+                              openEmptyBalloon: true,
+                              iconLayout: 'default#image',
+                              // Custom image for the placemark icon.
+                              iconImageHref: shopIcon,
+                              // The size of the placemark.
+                              iconImageSize: [60, 42],
+                              // The offset of the upper left corner of the icon relative
+                              // to its "tail" (the anchor point).
+                              iconImageOffset: [-3, -42],
+                            }}
+                            key={index}
+                            geometry={[
+                              Number(Location.lat),
+                              Number(Location.lon),
+                            ]}
+                          />
+                        );
+                      })}
                     </Map>
                   </YMaps>
                 </Spin>

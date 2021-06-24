@@ -1,0 +1,46 @@
+.contacts-modal {
+  position: absolute;
+  left: 50px;
+  bottom: 0;
+  right: 20px;
+  padding: 10px;
+  background-color: rgba(255, 255, 255, 0.952);
+  box-shadow: 0px -7px 15px -8px rgba(0, 0, 0, 0.3);
+  animation-name: show;
+  animation-duration: 0.4s;
+  z-index: 10;
+
+  @keyframes show {
+    from {
+      bottom: -100%;
+    }
+    to {
+      bottom: 0;
+    }
+  }
+
+  .contacts-modal--img {
+    max-width: 300px;
+    margin-bottom: 20px;
+  }
+
+  .contacts-modal--close {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 25px;
+    height: 25px;
+    border: none;
+    background-color: rgb(247, 80, 80);
+    border-radius: 50%;
+    color: white;
+    cursor: pointer;
+
+    &:hover {
+      background-color: rgba(255, 32, 32, 0.897);
+    }
+  }
+}
