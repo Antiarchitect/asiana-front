@@ -123,11 +123,11 @@ const Contacts: FC<IProps> = () => {
     </Menu>
   );
 
-  const icons = {
-    shop: shopIcon,
-    sto: stoIcon,
-    dealer: dealerIcon,
-  };
+  // const icons = {
+  //   shop: shopIcon,
+  //   sto: stoIcon,
+  //   dealer: dealerIcon,
+  // };
 
   return (
     <div className="page-with-header">
