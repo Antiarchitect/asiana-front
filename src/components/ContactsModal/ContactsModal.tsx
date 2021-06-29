@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 import './ContactsModal.scss';
+import Button from '../../components/Button/Button';
 
 interface ContactsModal {
   contact: any;
@@ -35,6 +36,7 @@ const ContactsModal: FC<ContactsModal> = ({ contact, onClose }) => {
           <p>{contact?.Location?.email}</p>
         </div>
       </div>
+      <Button>Записаться на сервис</Button>
       <button onClick={onClose} className="contacts-modal--close">
         x
       </button>

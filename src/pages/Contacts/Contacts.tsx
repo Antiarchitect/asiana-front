@@ -123,11 +123,20 @@ const Contacts: FC<IProps> = () => {
     </Menu>
   );
 
-  // const icons = {
-  //   shop: shopIcon,
-  //   sto: stoIcon,
-  //   dealer: dealerIcon,
-  // };
+  const icons = {
+    shop: {
+      icon: shopIcon,
+      style: [60, 42],
+    },
+    sto: {
+      icon: stoIcon,
+      style: [60, 42],
+    },
+    dealer: {
+      icon: dealerIcon,
+      style: [50, 50],
+    },
+  };
 
   return (
     <div className="page-with-header">
@@ -158,7 +167,10 @@ const Contacts: FC<IProps> = () => {
                         />
                       )}
                       {contacts.map((item: any, index: number) => {
-                        const { Location } = item;
+                        const { Location, Location_Type } = item;
+                        // @ts-ignore
+                        const icon = icons[Location_Type.type];
+
                         return (
                           <Placemark
                             onClick={() => setContact(item)}
@@ -167,9 +179,9 @@ const Contacts: FC<IProps> = () => {
                               openEmptyBalloon: true,
                               iconLayout: 'default#image',
                               // Custom image for the placemark icon.
-                              iconImageHref: shopIcon,
+                              iconImageHref: icon?.icon || icons.shop.icon,
                               // The size of the placemark.
-                              iconImageSize: [60, 42],
+                              iconImageSize: icon?.style || [60, 42],
                               // The offset of the upper left corner of the icon relative
                               // to its "tail" (the anchor point).
                               iconImageOffset: [-3, -42],
