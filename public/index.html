@@ -26,6 +26,53 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>React App</title>
+    <style>
+      .d-flex {
+        display: flex;
+      }
+
+      .ymaps-2-1-78-balloon__content ymaps {
+        min-width: 500px;
+      }
+
+      ymaps::-webkit-scrollbar {
+        width: 6px;               /* ширина scrollbar */
+      }
+      ymaps::-webkit-scrollbar-track {
+        background: transparent;        /* цвет дорожки */
+      }
+      ymaps::-webkit-scrollbar-thumb {
+        background-color: red;    /* цвет плашки */
+        border-radius: 3px;       /* закругления плашки */
+        border: 3px solid red;  /* padding вокруг плашки */
+      }
+
+      .contacts-modal--img {
+        width: 250px;
+        margin-right: 30px;
+        margin-bottom: 20px;
+      }
+
+      .contacts-modal--close {
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 25px;
+        height: 25px;
+        border: none;
+        background-color: rgb(247, 80, 80);
+        border-radius: 50%;
+        color: white;
+        cursor: pointer;
+      }
+
+      .contacts-modal--close:hover {
+        background-color: rgba(255, 32, 32, 0.897);
+      }
+    </style>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>

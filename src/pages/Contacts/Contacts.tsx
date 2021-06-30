@@ -70,6 +70,22 @@ const Contacts: FC<IProps> = () => {
   //   ]))
   // }, [contacts])
 
+  // const clearContact = () => {
+  //   setContact(null);
+  // }
+
+  // useEffect(() => {
+  //   const closeButton = document.querySelector('.contacts-modal--close');
+  //   if (!closeButton) {
+  //     return;
+  //   }
+  //   if (activeContact) {
+  //     closeButton.addEventListener('click', clearContact);
+  //   } else {
+  //     closeButton.removeEventListener('click', clearContact);
+  //   }
+  // }, [activeContact]);
+
   useEffect(() => {
     setLoading(true);
     fetch(
@@ -156,16 +172,23 @@ const Contacts: FC<IProps> = () => {
                   <YMaps>
                     <Map
                       defaultState={{
-                        center: [55.751574, 37.573856],
+                        center: activeContact
+                          ? [
+                              Number(activeContact?.Location.lat),
+                              Number(activeContact?.Location.lon),
+                            ]
+                          : [55.751574, 37.573856],
                         zoom: 5,
                       }}
+                      center={
+                        activeContact
+                          ? [
+                              Number(activeContact?.Location.lat),
+                              Number(activeContact?.Location.lon),
+                            ]
+                          : [55.751574, 37.573856]
+                      }
                       className="Contacts-map">
-                      {Boolean(activeContact) && (
-                        <ContactsModal
-                          onClose={() => setContact(null)}
-                          contact={activeContact}
-                        />
-                      )}
                       {contacts.map((item: any, index: number) => {
                         const { Location, Location_Type } = item;
                         // @ts-ignore
@@ -174,8 +197,18 @@ const Contacts: FC<IProps> = () => {
                         return (
                           <Placemark
                             onClick={() => setContact(item)}
+                            properties={{
+                              balloonContent: ContactsModal({
+                                contact: item,
+                                onClose: () => setContact(null),
+                              }),
+                            }}
+                            modules={[
+                              'geoObject.addon.balloon',
+                              'geoObject.addon.hint',
+                            ]}
                             options={{
-                              hasBalloon: true,
+                              hasBalloon: Boolean(activeContact),
                               openEmptyBalloon: true,
                               iconLayout: 'default#image',
                               // Custom image for the placemark icon.

@@ -1,6 +1,5 @@
-import React, { FC } from 'react';
+import React from 'react';
 import './ContactsModal.scss';
-import Button from '../../components/Button/Button';
 
 interface ContactsModal {
   contact: any;
@@ -8,40 +7,46 @@ interface ContactsModal {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-const ContactsModal: FC<ContactsModal> = ({ contact, onClose }) => {
-  return (
-    <div className="contacts-modal">
+const ContactsModal = ({ contact }: ContactsModal) => {
+  return `
+    <div>
       <div>
-        <div>
-          <img
-            className="contacts-modal--img"
-            src={contact?.image_url}
-            alt="contact"
-          />
+        <div class="d-flex">
+          <div>
+            <img
+              class="contacts-modal--img"
+              src="${contact?.image_url}"
+              alt="contact"
+            />
+          </div>
+          <div>
+            <div>
+              <b>Название</b>
+              <p>${contact?.Location?.title}</p>
+            </div>
+            <div>
+              <b>Координаты для автонавигатора</b>
+              <div>Широта: ${contact?.Location.lat}</div>
+              <div>Долгота: ${contact?.Location.lon}</div>
+            </div>
+          </div>
         </div>
         <div>
           <b>Тип контакта</b>
-          <p>{contact?.location_type_rus}</p>
-        </div>
-        <div>
-          <b>Название</b>
-          <p>{contact?.Location?.title}</p>
+          <p>${contact?.location_type_rus}</p>
         </div>
         <div>
           <b>Адрес</b>
-          <p>{contact?.Location?.address}</p>
+          <p>${contact?.Location?.address}</p>
         </div>
         <div>
           <b>Email</b>
-          <p>{contact?.Location?.email}</p>
+          <p>${contact?.Location?.email}</p>
         </div>
       </div>
-      <Button>Записаться на сервис</Button>
-      <button onClick={onClose} className="contacts-modal--close">
-        x
-      </button>
+      <button>Записаться на сервис</button>
     </div>
-  );
+  `;
 };
 
 export default ContactsModal;
