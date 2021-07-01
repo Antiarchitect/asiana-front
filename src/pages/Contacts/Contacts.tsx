@@ -33,7 +33,7 @@ const tabs = [
   {
     id: 1,
     label: 'Магазины',
-    icon: <AiFillShop className="mr-2" />,
+    icon: <AiFillShop className="mr-2 " />,
   },
   {
     id: 2,
@@ -103,10 +103,11 @@ const Contacts: FC<IProps> = () => {
       '2': 'sto',
       '3': 'dealer',
       '4': 'shop',
-      '5': 'shop',
     };
     fetch(
-      `https://test-rest-api.site/api/1/mobile/location/list/?token=b4831f21df6202f5bacade4b7bbc3e5c&location_type=${tabs[activeTab]}`,
+      `https://test-rest-api.site/api/1/mobile/location/list/?token=b4831f21df6202f5bacade4b7bbc3e5c${
+        tabs[activeTab] ? `&location_type=${tabs[activeTab]}` : ''
+      }`,
     )
       .then((response) => response.json())
       .then((data) => setContactsTab(Array.isArray(data.data) ? data.data : []))
@@ -146,7 +147,7 @@ const Contacts: FC<IProps> = () => {
     },
     sto: {
       icon: stoIcon,
-      style: [60, 42],
+      style: [48, 55],
     },
     dealer: {
       icon: dealerIcon,
