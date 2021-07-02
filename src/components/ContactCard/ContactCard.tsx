@@ -5,15 +5,22 @@ interface IExternalProps {
   title?: string;
   phone: string;
   date: string;
+  onClick?: (item: any) => void;
+  item: any;
 }
 
 interface IProps extends IExternalProps {}
 
-const ContactCard: FC<IProps> = ({ title, phone, date }) => {
+const ContactCard: FC<IProps> = ({ title, phone, date, onClick, item }) => {
+  const handleClick = (e: any) => {
+    e.preventDefault();
+    onClick && onClick(item);
+  };
+
   return (
     <div className="ContactCard">
       {title && (
-        <a href="/" className="ContactCard-title">
+        <a href="/" onClick={handleClick} className="ContactCard-title">
           {title}
         </a>
       )}

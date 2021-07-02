@@ -63,6 +63,7 @@ const Contacts: FC<IProps> = () => {
   const [loadingTabs, setLoadingTabs] = useState(false);
   const [activeContact, setContact] = useState<any>(null);
   const [activeTab, setActiveTab] = useState<any>('1');
+  const [activeCity, setCity] = useState<any>(null);
 
   // const coordinates = useMemo(() => {
   //   return contacts.map(({ Location }: any) => ([
@@ -89,12 +90,14 @@ const Contacts: FC<IProps> = () => {
   useEffect(() => {
     setLoading(true);
     fetch(
-      'https://test-rest-api.site/api/1/mobile/location/list/?token=b4831f21df6202f5bacade4b7bbc3e5c',
+      `https://test-rest-api.site/api/1/mobile/location/list/?token=b4831f21df6202f5bacade4b7bbc3e5c${
+        activeCity ? `&city_id=${activeCity.id}` : ''
+      }`,
     )
       .then((response) => response.json())
       .then((data) => setContacts(data.data))
       .finally(() => setLoading(false));
-  }, []);
+  }, [activeCity]);
 
   useEffect(() => {
     setLoadingTabs(true);
@@ -107,12 +110,12 @@ const Contacts: FC<IProps> = () => {
     fetch(
       `https://test-rest-api.site/api/1/mobile/location/list/?token=b4831f21df6202f5bacade4b7bbc3e5c${
         tabs[activeTab] ? `&location_type=${tabs[activeTab]}` : ''
-      }`,
+      }${activeCity ? `&city_id=${activeCity.id}` : ''}`,
     )
       .then((response) => response.json())
       .then((data) => setContactsTab(Array.isArray(data.data) ? data.data : []))
       .finally(() => setLoadingTabs(false));
-  }, [activeTab]);
+  }, [activeTab, activeCity]);
 
   useEffect(() => {
     new WOW.WOW().init();
@@ -155,6 +158,10 @@ const Contacts: FC<IProps> = () => {
     },
   };
 
+  const handleSelectContact = (item: any) => {
+    setContact(item);
+  };
+
   return (
     <div className="page-with-header">
       <div className="container">
@@ -167,7 +174,7 @@ const Contacts: FC<IProps> = () => {
               Магазины автозапчастей в городе Санкт-Петербург
             </h1>
             <section className="section-leftSideBar-map">
-              <LeftSideBar />
+              <LeftSideBar onSelect={setCity} />
               <div>
                 <Spin spinning={loading}>
                   <YMaps>
@@ -190,11 +197,11 @@ const Contacts: FC<IProps> = () => {
                           : [55.751574, 37.573856]
                       }
                       className="Contacts-map">
-                      {contacts.map((item: any, index: number) => {
+                      {contacts?.map((item: any, index: number) => {
                         const { Location, Location_Type } = item;
                         // @ts-ignore
                         const icon = icons[Location_Type.type];
-
+                        console.log(activeContact);
                         return (
                           <Placemark
                             onClick={() => setContact(item)}
@@ -264,6 +271,8 @@ const Contacts: FC<IProps> = () => {
                                     title={item.Location.title}
                                     phone={item.Location.phones}
                                     date="пн-вс: 09:00-21:00"
+                                    item={item}
+                                    onClick={handleSelectContact}
                                   />
                                 ))}
                               </div>

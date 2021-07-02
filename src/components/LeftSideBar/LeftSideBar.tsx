@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { Menu } from 'antd';
 import './LeftSideBar.scss';
 import { Link } from 'react-router-dom';
@@ -18,51 +18,36 @@ interface IExternalProps {
   menu?: Array<IMenuItem>;
 }
 
-interface IProps extends IExternalProps {}
+interface IProps extends IExternalProps {
+  onSelect?: (item: any) => void;
+}
 
-const LeftSideBarMenu: IExternalProps['menu'] = [
-  {
-    id: 2,
-    label: {
-      type: 'title',
-      value: 'Санкт-Петербург',
-      link: '/',
-    },
-    submenu: [
-      {
-        id: 1000,
-        label: {
-          type: 'label',
-          value: 'Выборг',
-          link: '/',
-        },
-      },
-      {
-        id: 1001,
-        label: {
-          type: 'label',
-          value: 'Гатчина',
-          link: '/',
-        },
-      },
-    ],
-  },
-  {
-    id: 3,
-    label: {
-      type: 'title',
-      value: 'Москва',
-      link: '/',
-    },
-  },
-];
+const LeftSideBar: FC<IProps> = ({ onSelect }) => {
+  const [cities, setCities] = useState<any[]>([]);
 
-const LeftSideBar: FC<IProps> = () => {
+  useEffect(() => {
+    fetch(
+      'https://test-rest-api.site/api/1/site/location/cities/?token=b4831f21df6202f5bacade4b7bbc3e5c',
+    )
+      .then((response) => response.json())
+      .then((data) =>
+        setCities(
+          data.data.map(({ City: item }: any) => ({
+            id: item.id,
+            label: {
+              type: 'title',
+              value: item.name,
+            },
+          })),
+        ),
+      );
+  }, []);
+
   const renderSubmenu = (item: IMenuItem) => {
     return item.submenu?.map(renderMenu);
   };
 
-  const renderMenu = (item: IMenuItem, key: number) => {
+  const renderMenu = (item: any, key: number) => {
     const className =
       item.label.type === 'title'
         ? 'LeftSideBar-title LeftSideBar-item'
@@ -70,10 +55,8 @@ const LeftSideBar: FC<IProps> = () => {
 
     if (!item.submenu) {
       return (
-        <Menu.Item key={key}>
-          <Link className={className} to={item.label.link}>
-            {item.label.value}
-          </Link>
+        <Menu.Item onClick={() => (onSelect ? onSelect(item) : null)} key={key}>
+          <span className={className}>{item.label.value}</span>
         </Menu.Item>
       );
     }
@@ -87,7 +70,7 @@ const LeftSideBar: FC<IProps> = () => {
 
   return (
     <Menu className="LeftSideBar" mode="inline">
-      {LeftSideBarMenu.map(renderMenu)}
+      {cities.map(renderMenu)}
     </Menu>
   );
 };
