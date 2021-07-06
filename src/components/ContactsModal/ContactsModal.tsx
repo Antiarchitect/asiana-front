@@ -20,8 +20,8 @@ const ContactsModal = ({ contact }: ContactsModal) => {
           </div>
           <div>
             <div>
-              <b>Название</b>
-              <p>${contact?.Location?.title}</p>
+              <b>${contact?.Location?.city_id}</b>
+              <p>${contact?.Location?.address}</p>
             </div>
             <div>
               <b>Координаты для автонавигатора</b>
@@ -30,22 +30,33 @@ const ContactsModal = ({ contact }: ContactsModal) => {
             </div>
           </div>
         </div>
-        <div>
-          <b>Тип контакта</b>
-          <p>${contact?.location_type_rus}</p>
+        <div class = 'contactsModal-Block'>
+        <div class = 'contactsModal-Paragraph-Block'>
+          <b class = 'contactsModal-Shop'>Магазин:</b>
+           
         </div>
-        <div>
-          <b>Адрес</b>
+        <div class = 'contactsModal-Paragraph-Block'>
+          <b>Телефон</b>
+          <p class = 'contactsModal-Paragraph'>${contact?.Location?.phones}</p>
+        </div>
+        <div class = 'contactsModal-Paragraph-Block'>
+          <b>Email</b>
+          <p class = 'contactsModal-Paragraph'>${contact?.Location?.email}</p>
+        </div>
+
+        <div class = 'contactsModal-Paragraph-Block'>
+          <b>График работы</b>
           <p>${contact?.Location?.address}</p>
         </div>
-        <div>
-          <b>Email</b>
-          <p>${contact?.Location?.email}</p>
         </div>
       </div>
-      <button>Записаться на сервис</button>
+      
     </div>
   `;
 };
+
+{
+  /* <button class = 'contactsModal-Record-Button'>Записаться на сервис</button> */
+}
 
 export default ContactsModal;

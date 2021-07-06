@@ -64,6 +64,25 @@ const Contacts: FC<IProps> = () => {
   const [activeContact, setContact] = useState<any>(null);
   const [activeTab, setActiveTab] = useState<any>('1');
   const [activeCity, setCity] = useState<any>(null);
+  const [cities, setCities] = useState<any[]>([]);
+
+  useEffect(() => {
+    fetch(
+      'https://test-rest-api.site/api/1/site/location/cities/?token=b4831f21df6202f5bacade4b7bbc3e5c',
+    )
+      .then((response) => response.json())
+      .then((data) =>
+        setCities(
+          data.data.map(({ City: item }: any) => ({
+            id: item.id,
+            label: {
+              type: 'title',
+              value: item.name,
+            },
+          })),
+        ),
+      );
+  }, []);
 
   // const coordinates = useMemo(() => {
   //   return contacts.map(({ Location }: any) => ([
@@ -201,13 +220,13 @@ const Contacts: FC<IProps> = () => {
                         const { Location, Location_Type } = item;
                         // @ts-ignore
                         const icon = icons[Location_Type.type];
-                        console.log(activeContact);
+
                         return (
                           <Placemark
                             onClick={() => setContact(item)}
                             properties={{
                               balloonContent: ContactsModal({
-                                contact: item,
+                                contact: { ...item },
                                 onClose: () => setContact(null),
                               }),
                             }}
