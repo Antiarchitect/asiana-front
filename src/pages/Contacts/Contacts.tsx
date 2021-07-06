@@ -1,4 +1,4 @@
-import { FC, useCallback, useEffect, useMemo, useState } from 'react';
+import { FC, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Dropdown, Menu, Spin, Tabs } from 'antd';
 import Breadcrumbs from '../../components/Breadcrumbs/Breadcrumbs';
 import Footer from '../../components/Footer/Footer';
@@ -22,6 +22,7 @@ import ContactsModal from '../../components/ContactsModal/ContactsModal';
 import shopIcon from '../../assets/autoshop.png';
 import stoIcon from '../../assets/autoservice.png';
 import dealerIcon from '../../assets/autoshow.png';
+import { setTimeout } from 'timers';
 
 const { TabPane } = Tabs;
 
@@ -64,6 +65,8 @@ const Contacts: FC<IProps> = () => {
   const [activeContact, setContact] = useState<any>(null);
   const [activeTab, setActiveTab] = useState<any>('1');
   const [activeCity, setCity] = useState<any>(null);
+
+  const map = useRef(null);
 
   // const coordinates = useMemo(() => {
   //   return contacts.map(({ Location }: any) => ([
@@ -162,6 +165,21 @@ const Contacts: FC<IProps> = () => {
     setContact(item);
   };
 
+  const ref = (Location: any) => (ref: any) => {
+    window.scrollTo(0, 0);
+    setTimeout(() => {
+      if (
+        activeContact?.Location.lat === Location.lat &&
+        activeContact?.Location.lon === Location.lon &&
+        ref
+      ) {
+        ref.events?.types?.click[0]();
+        ref.balloon?.open();
+        // setLoading(false);
+      }
+    }, 10);
+  };
+
   return (
     <div className="page-with-header">
       <div className="container">
@@ -177,7 +195,8 @@ const Contacts: FC<IProps> = () => {
               <LeftSideBar onSelect={setCity} />
               <div>
                 <Spin spinning={loading}>
-                  <YMaps>
+                  <YMaps ref={map}>
+                    {console.log(activeContact)}
                     <Map
                       defaultState={{
                         center: activeContact
@@ -201,9 +220,9 @@ const Contacts: FC<IProps> = () => {
                         const { Location, Location_Type } = item;
                         // @ts-ignore
                         const icon = icons[Location_Type.type];
-                        console.log(activeContact);
                         return (
                           <Placemark
+                            key={index}
                             onClick={() => setContact(item)}
                             properties={{
                               balloonContent: ContactsModal({
@@ -211,14 +230,13 @@ const Contacts: FC<IProps> = () => {
                                 onClose: () => setContact(null),
                               }),
                             }}
-                            modules={[
-                              'geoObject.addon.balloon',
-                              'geoObject.addon.hint',
-                            ]}
+                            instanceRef={ref(Location)}
+                            modules={['geoObject.addon.balloon']}
                             options={{
                               hasBalloon: Boolean(activeContact),
                               openEmptyBalloon: true,
                               iconLayout: 'default#image',
+                              balloonPanelMaxMapArea: 1,
                               // Custom image for the placemark icon.
                               iconImageHref: icon?.icon || icons.shop.icon,
                               // The size of the placemark.
@@ -227,7 +245,6 @@ const Contacts: FC<IProps> = () => {
                               // to its "tail" (the anchor point).
                               iconImageOffset: [-3, -42],
                             }}
-                            key={index}
                             geometry={[
                               Number(Location.lat),
                               Number(Location.lon),
