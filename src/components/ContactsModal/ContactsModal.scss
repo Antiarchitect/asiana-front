@@ -46,17 +46,26 @@
 }
 
 .contactsModal-Record-Button {
-  background-color: orangered;
+  background-color: #f8d512;
+  border: solid #f8d512;
   font-weight: bold;
   font-size: 16px;
-  width: 45%;
+  width: 100%;
+  height: 30px;
+  margin-top: 10px;
+
+  &:hover {
+    background-color: #c2a712;
+    color: white;
+    border: solid #c2a712;
+  }
 }
 
 .contactsModal-Block {
   background-color: #edeeef;
-  width: 55%;
-  height: 180px;
+  width: 42%;
   padding-top: 5px;
+  line-height: 19px;
 }
 
 .contactsModal-Paragraph-Block {
@@ -65,8 +74,23 @@
 
 .contactsModal-Paragraph {
   margin-bottom: 0px;
+  font-size: 12px;
+  line-height: 16px;
 }
 
 .contactsModal-Shop {
   font-size: 14px;
+}
+
+.contactsModal-color {
+  color: red;
+}
+
+.contactsModal-d-flex {
+  display: flex;
+  justify-content: center;
+}
+
+.mb-1 {
+  padding-bottom: 7px;
 }

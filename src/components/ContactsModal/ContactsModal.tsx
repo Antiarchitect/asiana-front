@@ -20,7 +20,7 @@ const ContactsModal = ({ contact }: ContactsModal) => {
           </div>
           <div>
             <div>
-              <b>${contact?.Location?.city_id}</b>
+              <b>${contact?.city?.label}</b>
               <p>${contact?.Location?.address}</p>
             </div>
             <div>
@@ -36,18 +36,22 @@ const ContactsModal = ({ contact }: ContactsModal) => {
            
         </div>
         <div class = 'contactsModal-Paragraph-Block'>
-          <b>Телефон</b>
-          <p class = 'contactsModal-Paragraph'>${contact?.Location?.phones}</p>
+          <b>Телефон:</b>
+          <p class = 'contactsModal-Paragraph contactsModal-color'>${contact?.Location?.phones}</p>
         </div>
         <div class = 'contactsModal-Paragraph-Block'>
-          <b>Email</b>
+          <b>Email:</b>
           <p class = 'contactsModal-Paragraph'>${contact?.Location?.email}</p>
         </div>
 
         <div class = 'contactsModal-Paragraph-Block'>
           <b>График работы</b>
-          <p>${contact?.Location?.address}</p>
+          <p class = 'contactsModal-Paragraph mb-1'>${contact?.Location?.address}</p>
         </div>
+         
+        </div>
+        <div class = 'contactsModal-d-flex'>
+        <button class = 'contactsModal-Record-Button'>Записаться на сервис</button> 
         </div>
       </div>
       
@@ -56,7 +60,6 @@ const ContactsModal = ({ contact }: ContactsModal) => {
 };
 
 {
-  /* <button class = 'contactsModal-Record-Button'>Записаться на сервис</button> */
 }
 
 export default ContactsModal;
