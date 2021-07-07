@@ -24,11 +24,15 @@ const ContactCard: FC<IProps> = ({ title, phone, date, onClick, item }) => {
           {title}
         </a>
       )}
-      {phone && (
-        <a href={`tel: ${phone}`} className="ContactCard-phone">
-          {phone}
-        </a>
-      )}
+      {phone &&
+        phone
+          .split(' +7')
+          .filter(Boolean)
+          .map((item) => (
+            <a href={`tel: +7${item}`} className="ContactCard-phone">
+              +7{item}
+            </a>
+          ))}
       {date && <span>{date}</span>}
     </div>
   );

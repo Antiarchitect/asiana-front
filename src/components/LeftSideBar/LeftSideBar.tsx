@@ -1,7 +1,6 @@
 import { FC, useEffect, useState } from 'react';
 import { Menu } from 'antd';
 import './LeftSideBar.scss';
-import { Link } from 'react-router-dom';
 import SubMenu from 'antd/lib/menu/SubMenu';
 
 interface IMenuItem {

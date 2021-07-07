@@ -301,7 +301,12 @@ const Contacts: FC<IProps> = () => {
                             }
                             key={item.id}>
                             <Spin spinning={loadingTabs}>
-                              <div style={{ minHeight: 50 }}>
+                              <div
+                                style={{
+                                  minHeight: 50,
+                                  display: 'flex',
+                                  flexWrap: 'wrap',
+                                }}>
                                 {contactsTab.map((item: any) => (
                                   <ContactCard
                                     key={item.Location.id}

@@ -59,7 +59,4 @@ const ContactsModal = ({ contact }: ContactsModal) => {
   `;
 };
 
-{
-}
-
 export default ContactsModal;
