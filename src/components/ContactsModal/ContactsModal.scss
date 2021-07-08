@@ -94,3 +94,15 @@
 .mb-1 {
   padding-bottom: 7px;
 }
+
+.ContactsModal-phone {
+  color: #de2a1b;
+  text-decoration: underline;
+  display: block;
+  margin-bottom: 5px;
+
+  &:hover {
+    text-decoration: none;
+    color: #b31f12;
+  }
+}

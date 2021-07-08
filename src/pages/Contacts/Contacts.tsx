@@ -188,7 +188,7 @@ const Contacts: FC<IProps> = () => {
       if (
         activeContact?.Location.lat === Location.lat &&
         activeContact?.Location.lon === Location.lon &&
-        ref
+        ref?.events?.types?.click?.length
       ) {
         ref.events?.types?.click[0]();
         ref.balloon?.open();
@@ -245,6 +245,7 @@ const Contacts: FC<IProps> = () => {
                             key={index}
                             onClick={() => setContact(item)}
                             properties={{
+                              // @ts-ignore
                               balloonContent: ContactsModal({
                                 contact: { ...item, city },
                                 onClose: () => setContact(null),

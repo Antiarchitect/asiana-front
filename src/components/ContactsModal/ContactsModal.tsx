@@ -3,10 +3,25 @@ import './ContactsModal.scss';
 interface ContactsModal {
   contact: any;
   onClose?: () => void;
+  phone: string;
+  item: any;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 const ContactsModal = ({ contact }: ContactsModal) => {
+  const number = contact?.Location?.phones
+    ?.split(' +7')
+    .filter(Boolean)
+    .map((item: any, idx: any) =>
+      idx === 0
+        ? `
+      <a href="tel: +7${item}" class="ContactsModal-phone">
+        +7${item}
+      </a>
+    `
+        : '',
+    )[0];
+
   return `
     <div>
       <div>
@@ -37,7 +52,8 @@ const ContactsModal = ({ contact }: ContactsModal) => {
         </div>
         <div class = 'contactsModal-Paragraph-Block'>
           <b>Телефон:</b>
-          <p class = 'contactsModal-Paragraph contactsModal-color'>${contact?.Location?.phones}</p>
+          ${number}
+       
         </div>
         <div class = 'contactsModal-Paragraph-Block'>
           <b>Email:</b>
