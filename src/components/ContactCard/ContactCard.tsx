@@ -28,11 +28,14 @@ const ContactCard: FC<IProps> = ({ title, phone, date, onClick, item }) => {
         phone
           .split(' +7')
           .filter(Boolean)
-          .map((item) => (
-            <a href={`tel: +7${item}`} className="ContactCard-phone">
-              +7{item}
-            </a>
-          ))}
+
+          .map((item, idx) =>
+            idx === 0 ? (
+              <a href={`tel: +7${item}`} className="ContactCard-phone">
+                +7{item}
+              </a>
+            ) : null,
+          )}
       {date && <span>{date}</span>}
     </div>
   );
