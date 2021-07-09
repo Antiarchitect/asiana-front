@@ -6,6 +6,7 @@
 .AboutCompany-title {
   font-size: 21px;
   padding-top: 30px;
+  font-weight: bold;
 }
 
 .AboutCompany-container {
@@ -33,7 +34,9 @@
 
 .AboutCompany-link {
   color: red;
-  font-weight: 700;
+  font-weight: bold;
+  text-decoration: underline;
+  font-size: 15px;
 
   &:hover {
     text-decoration: none;
@@ -44,12 +47,14 @@
 .AboutCompany-title-h2 {
   font-size: 19px;
   padding-bottom: 20px;
+  font-weight: bold;
 }
 
 .AboutCompany-title-h3 {
   font-size: 17px;
   padding-top: 20px;
   padding-bottom: 20px;
+  font-weight: bold;
 }
 
 .AboutCompany-leftSidebar-button {

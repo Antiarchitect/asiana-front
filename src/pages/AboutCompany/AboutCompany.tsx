@@ -3,7 +3,7 @@ import Footer from '../../components/Footer/Footer';
 import FloatingFooter from '../../components/FloatingFooter/FloatingFooter';
 import './AboutCompany.scss';
 import Breadcrumbs from '../../components/Breadcrumbs/Breadcrumbs';
-import LeftSideBar from '../../components/LeftSideBar/LeftSideBar';
+import LeftMenu from '../../components/LeftMenu/LeftMenu';
 import Button from '../../components/Button/Button';
 import { COLORS } from '../../constants';
 import image from '../../assets/leninskiy.png';
@@ -37,7 +37,7 @@ const AboutCompany: FC<IProps> = () => {
           </div>
           <div className="AboutCompany-leftSidebar-button-title">
             <div className="AboutCompany-leftSidebar-button">
-              <LeftSideBar />
+              <LeftMenu />
               <div className="AboutCompany-button-block">
                 <Button className="AboutCompany-button wow fadeInUp">
                   ЖАЛОБЫ И ПРЕДЛОЖЕНИЯ
@@ -87,9 +87,14 @@ const AboutCompany: FC<IProps> = () => {
 
               <div className="AboutCompany-title-block-p wow fadeIn">
                 <div className="mb-1">
-                  <div className="mb-1">
+                  <div>
                     {' '}
-                    <p style={{ color: COLORS.red, fontWeight: 700 }}>
+                    <p
+                      style={{
+                        color: COLORS.red,
+                        marginBottom: 0,
+                        fontWeight: 700,
+                      }}>
                       {' '}
                       • Сеть станций постгарантийного технического обслуживания
                       корейских автомобилей в{' '}
