@@ -35,7 +35,7 @@ const ContactCard: FC<IProps> = ({ title, phone, date, onClick, item }) => {
                 key={idx}
                 href={`tel: +7${item}`}
                 className="ContactCard-phone">
-                +7{item}
+                +7{item.replace('Техцентр', '')}
               </a>
             ) : null,
           )}

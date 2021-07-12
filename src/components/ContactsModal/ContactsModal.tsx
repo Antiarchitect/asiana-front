@@ -21,7 +21,7 @@ const ContactsModal = ({ contact }: ContactsModal) => {
     `
         : '',
     )[0];
-
+  console.log(contact);
   return `
     <div>
       <div>
@@ -62,12 +62,18 @@ const ContactsModal = ({ contact }: ContactsModal) => {
 
         <div class = 'contactsModal-Paragraph-Block'>
           <b>График работы</b>
-          <p class = 'contactsModal-Paragraph mb-1'>${contact?.Location?.address}</p>
+          <p class = 'contactsModal-Paragraph mb-1'>${
+            contact?.Location?.address
+          }</p>
         </div>
          
         </div>
         <div class = 'contactsModal-d-flex'>
-        <button class = 'contactsModal-Record-Button'>Записаться на сервис</button> 
+        ${
+          contact?.Location_Type.type === 'sto'
+            ? `<button class = 'contactsModal-Record-Button'>Записаться на сервис</button>`
+            : ''
+        } 
         </div>
       </div>
       
