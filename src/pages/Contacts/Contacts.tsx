@@ -135,11 +135,11 @@ const Contacts: FC<IProps> = () => {
       .then((response) => response.json())
       .then((data) => setContactsTab(Array.isArray(data.data) ? data.data : []))
       .finally(() => setLoadingTabs(false));
-  }, [activeTab, activeCity]);
+  }, [activeTab, activeCity, tabsObj]);
 
   useEffect(() => {
     new WOW.WOW().init();
-  }, [tabsObj]);
+  }, []);
 
   const handleClickMenu = useCallback(
     (item) => {
