@@ -36,7 +36,9 @@ const ContactsModal = ({ contact }: ContactsModal) => {
           <div>
             <div>
               <b>${contact?.city?.label}</b>
-              <p>${contact?.Location?.address}</p>
+              <p class = 'contactsModal-paragraph-p'>${
+                contact?.Location?.address
+              }</p>
             </div>
             <div>
               <b>Координаты для автонавигатора</b>
@@ -45,16 +47,30 @@ const ContactsModal = ({ contact }: ContactsModal) => {
             </div>
           </div>
         </div>
+
         <div class = 'contactsModal-Block'>
         <div class = 'contactsModal-Paragraph-Block'>
-          <b class = 'contactsModal-Shop'>Магазин:</b>
-           
+        ${
+          contact?.Location_Type.type === 'shop'
+            ? `<b class = 'contactsModal-Shop'>Магазин:</b>`
+            : ''
+        }
+        ${
+          contact?.Location_Type.type === 'sto'
+            ? `<b class = 'contactsModal-Shop'>Технический центр:</b>
+       `
+            : ''
+        }           
         </div>
+         
+
+         
         <div class = 'contactsModal-Paragraph-Block'>
+        
           <b>Телефон:</b>
           ${number}
-       
         </div>
+
         <div class = 'contactsModal-Paragraph-Block'>
           <b>Email:</b>
           <p class = 'contactsModal-Paragraph'>${contact?.Location?.email}</p>
@@ -65,18 +81,22 @@ const ContactsModal = ({ contact }: ContactsModal) => {
           <p class = 'contactsModal-Paragraph mb-1'>${
             contact?.Location?.address
           }</p>
-        </div>
-         
-        </div>
-        <div class = 'contactsModal-d-flex'>
+        </div>  
+        
+        
+
+
+
+
+        
+      </div>
+      <div class = 'contactsModal-d-flex'>
         ${
           contact?.Location_Type.type === 'sto'
             ? `<button class = 'contactsModal-Record-Button'>Записаться на сервис</button>`
             : ''
         } 
         </div>
-      </div>
-      
     </div>
   `;
 };
