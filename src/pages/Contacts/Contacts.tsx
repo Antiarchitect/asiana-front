@@ -84,6 +84,12 @@ const Contacts: FC<IProps> = () => {
   }, []);
 
   const map = useRef(null);
+  const tabsObj: any = {
+    '1': 'shop',
+    '2': 'sto',
+    '3': 'dealer',
+    '4': 'shop',
+  };
 
   // const coordinates = useMemo(() => {
   //   return contacts.map(({ Location }: any) => ([
@@ -121,15 +127,9 @@ const Contacts: FC<IProps> = () => {
 
   useEffect(() => {
     setLoadingTabs(true);
-    const tabs: any = {
-      '1': 'shop',
-      '2': 'sto',
-      '3': 'dealer',
-      '4': 'shop',
-    };
     fetch(
       `https://test-rest-api.site/api/1/mobile/location/list/?token=b4831f21df6202f5bacade4b7bbc3e5c${
-        tabs[activeTab] ? `&location_type=${tabs[activeTab]}` : ''
+        tabsObj[activeTab] ? `&location_type=${tabsObj[activeTab]}` : ''
       }${activeCity ? `&city_id=${activeCity.id}` : ''}`,
     )
       .then((response) => response.json())
@@ -149,13 +149,13 @@ const Contacts: FC<IProps> = () => {
   );
 
   const activeTabMenu = useMemo(() => {
-    const activeTabMenu = tabs.find((tab) => tab.id === Number(activeTab));
+    const activeTabMenu = tabs.find((tab: any) => tab.id === Number(activeTab));
     return activeTabMenu;
   }, [activeTab]);
 
   const menu = (
     <Menu activeKey={activeTab}>
-      {tabs.map((item) => (
+      {tabs.map((item: any) => (
         <Menu.Item onClick={handleClickMenu} key={item.id}>
           {item.label}
         </Menu.Item>
@@ -233,46 +233,52 @@ const Contacts: FC<IProps> = () => {
                           : [55.751574, 37.573856]
                       }
                       className="Contacts-map">
-                      {contacts?.map((item: any, index: number) => {
-                        const { Location, Location_Type } = item;
-                        // @ts-ignore
-                        const icon = icons[Location_Type.type];
-                        const city = cities.find(
-                          (c) => c.id === Location.city_id,
-                        );
-                        return (
-                          <Placemark
-                            key={index}
-                            onClick={() => setContact(item)}
-                            properties={{
-                              // @ts-ignore
-                              balloonContent: ContactsModal({
-                                contact: { ...item, city },
-                                onClose: () => setContact(null),
-                              }),
-                            }}
-                            instanceRef={ref(Location)}
-                            modules={['geoObject.addon.balloon']}
-                            options={{
-                              hasBalloon: Boolean(activeContact),
-                              openEmptyBalloon: true,
-                              iconLayout: 'default#image',
-                              balloonPanelMaxMapArea: 1,
-                              // Custom image for the placemark icon.
-                              iconImageHref: icon?.icon || icons.shop.icon,
-                              // The size of the placemark.
-                              iconImageSize: icon?.style || [60, 42],
-                              // The offset of the upper left corner of the icon relative
-                              // to its "tail" (the anchor point).
-                              iconImageOffset: [-3, -42],
-                            }}
-                            geometry={[
-                              Number(Location.lat),
-                              Number(Location.lon),
-                            ]}
-                          />
-                        );
-                      })}
+                      {contacts
+                        ?.filter(
+                          (item: any) =>
+                            String(activeTab) === '5' ||
+                            item.Location_Type.type === tabsObj[activeTab],
+                        )
+                        .map((item: any, index: number) => {
+                          const { Location, Location_Type } = item;
+                          // @ts-ignore
+                          const icon = icons[Location_Type.type];
+                          const city = cities.find(
+                            (c) => c.id === Location.city_id,
+                          );
+                          return (
+                            <Placemark
+                              key={index}
+                              onClick={() => setContact(item)}
+                              properties={{
+                                // @ts-ignore
+                                balloonContent: ContactsModal({
+                                  contact: { ...item, city },
+                                  onClose: () => setContact(null),
+                                }),
+                              }}
+                              instanceRef={ref(Location)}
+                              modules={['geoObject.addon.balloon']}
+                              options={{
+                                hasBalloon: Boolean(activeContact),
+                                openEmptyBalloon: true,
+                                iconLayout: 'default#image',
+                                balloonPanelMaxMapArea: 1,
+                                // Custom image for the placemark icon.
+                                iconImageHref: icon?.icon || icons.shop.icon,
+                                // The size of the placemark.
+                                iconImageSize: icon?.style || [60, 42],
+                                // The offset of the upper left corner of the icon relative
+                                // to its "tail" (the anchor point).
+                                iconImageOffset: [-3, -42],
+                              }}
+                              geometry={[
+                                Number(Location.lat),
+                                Number(Location.lon),
+                              ]}
+                            />
+                          );
+                        })}
                     </Map>
                   </YMaps>
                 </Spin>
@@ -292,7 +298,7 @@ const Contacts: FC<IProps> = () => {
                         </Button>
                       </Dropdown>
                       <Tabs onChange={setActiveTab} activeKey={activeTab}>
-                        {tabs.map((item) => (
+                        {tabs.map((item: any) => (
                           <TabPane
                             tab={
                               <span className="d-flex align-items-center">
