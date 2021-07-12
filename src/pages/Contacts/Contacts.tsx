@@ -139,7 +139,7 @@ const Contacts: FC<IProps> = () => {
 
   useEffect(() => {
     new WOW.WOW().init();
-  }, []);
+  }, [tabsObj]);
 
   const handleClickMenu = useCallback(
     (item) => {
