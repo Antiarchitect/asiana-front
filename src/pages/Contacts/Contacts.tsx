@@ -84,12 +84,22 @@ const Contacts: FC<IProps> = () => {
   }, []);
 
   const map = useRef(null);
-  const tabsObj: any = {
-    '1': 'shop',
-    '2': 'sto',
-    '3': 'dealer',
-    '4': 'shop',
-  };
+  // const tabsObj: any = {
+  //   '1': 'shop',
+  //   '2': 'sto',
+  //   '3': 'dealer',
+  //   '4': 'shop',
+  // };
+
+  const tabsObj = useMemo(
+    () => ({
+      '1': 'shop',
+      '2': 'sto',
+      '3': 'dealer',
+      '4': 'shop',
+    }),
+    [],
+  );
 
   // const coordinates = useMemo(() => {
   //   return contacts.map(({ Location }: any) => ([
@@ -129,6 +139,7 @@ const Contacts: FC<IProps> = () => {
     setLoadingTabs(true);
     fetch(
       `https://test-rest-api.site/api/1/mobile/location/list/?token=b4831f21df6202f5bacade4b7bbc3e5c${
+        // @ts-ignore
         tabsObj[activeTab] ? `&location_type=${tabsObj[activeTab]}` : ''
       }${activeCity ? `&city_id=${activeCity.id}` : ''}`,
     )
@@ -237,6 +248,7 @@ const Contacts: FC<IProps> = () => {
                         ?.filter(
                           (item: any) =>
                             String(activeTab) === '5' ||
+                            // @ts-ignore
                             item.Location_Type.type === tabsObj[activeTab],
                         )
                         .map((item: any, index: number) => {
