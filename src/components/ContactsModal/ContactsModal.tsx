@@ -8,7 +8,7 @@ interface ContactsModal {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-const ContactsModal = ({ contact }: ContactsModal) => {
+const ContactsModal = ({ contact, onClose }: ContactsModal) => {
   const number = contact?.Location?.phones
     ?.split(' +7')
     .filter(Boolean)
@@ -21,7 +21,7 @@ const ContactsModal = ({ contact }: ContactsModal) => {
     `
         : '',
     )[0];
-  console.log(contact);
+
   return `
     <div>
       <div>
@@ -35,10 +35,9 @@ const ContactsModal = ({ contact }: ContactsModal) => {
           </div>
           <div>
             <div>
-              <b>${contact?.city?.label}</b>
-              <p class = 'contactsModal-paragraph-p'>${
-                contact?.Location?.address
-              }</p>
+                      <p class = 'contactsMod              <p class = 'contactsModal-paragraph-p'>${
+                        contact?.Location?.address
+                      }</p>
             </div>
             <div>
               <b>Координаты для автонавигатора</b>
@@ -61,7 +60,12 @@ const ContactsModal = ({ contact }: ContactsModal) => {
        `
             : ''
         }           
-        </div>
+
+             
+
+              
+    
+  </div>
          
 
          
@@ -88,15 +92,14 @@ const ContactsModal = ({ contact }: ContactsModal) => {
 
 
 
-        
-      </div>
-      <div class = 'contactsModal-d-flex'>
+        <div class = 'contactsModal-d-flex'>
+        </div> 
+        </div>
         ${
           contact?.Location_Type.type === 'sto'
-            ? `<button class = 'contactsModal-Record-Button'>Записаться на сервис</button>`
+            ? `<button id="${contact?.Location.id}" class = 'contactsModal-Record-Button'>Записаться на сервис</button>`
             : ''
         } 
-        </div>
     </div>
   `;
 };

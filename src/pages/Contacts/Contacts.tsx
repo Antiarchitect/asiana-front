@@ -23,6 +23,7 @@ import shopIcon from '../../assets/autoshop.png';
 import stoIcon from '../../assets/autoservice.png';
 import dealerIcon from '../../assets/autoshow.png';
 import { setTimeout } from 'timers';
+import ServiceRegistrationForm from '../../components/ServiceRegistrationForm/ServiceRegistrationForm';
 
 const { TabPane } = Tabs;
 
@@ -66,6 +67,7 @@ const Contacts: FC<IProps> = () => {
   const [activeTab, setActiveTab] = useState<any>('1');
   const [activeCity, setCity] = useState<any>(null);
   const [cities, setCities] = useState<any[]>([]);
+  const [isOpenModal, setOpenModal] = useState(false);
 
   useEffect(() => {
     fetch(
@@ -191,22 +193,45 @@ const Contacts: FC<IProps> = () => {
 
   const handleSelectContact = (item: any) => {
     setContact(item);
+
+    window.scrollTo(0, 0);
   };
 
-  const ref = (Location: any) => (ref: any) => {
-    window.scrollTo(0, 0);
-    setTimeout(() => {
-      if (
-        activeContact?.Location.lat === Location.lat &&
-        activeContact?.Location.lon === Location.lon &&
-        ref?.events?.types?.click?.length
-      ) {
-        ref.events?.types?.click[0]();
-        ref.balloon?.open();
-        // setLoading(false);
+  useEffect(() => {
+    if (activeContact) {
+      setTimeout(() => {
+        const id = activeContact.Location.id;
+        const button = document.getElementById(id);
+        if (button) {
+          button.addEventListener('click', (e: any) => {
+            setOpenModal(true);
+            console.log('click');
+          });
+        }
+      }, 500);
+    }
+  }, [activeContact, isOpenModal]);
+
+  const ref = useCallback(
+    (Location: any) => (ref: any) => {
+      if (!ref?.balloon || !ref?.events) {
+        return;
       }
-    }, 10);
-  };
+
+      setTimeout(() => {
+        if (
+          activeContact?.Location.lat === Location.lat &&
+          activeContact?.Location.lon === Location.lon &&
+          ref?.events?.types?.click?.length
+        ) {
+          ref.events?.types?.click[0]();
+          ref.balloon?.open();
+          // setLoading(false);
+        }
+      }, 10);
+    },
+    [activeContact],
+  );
 
   return (
     <div className="page-with-header">
@@ -224,7 +249,6 @@ const Contacts: FC<IProps> = () => {
               <div>
                 <Spin spinning={loading}>
                   <YMaps ref={map}>
-                    {console.log(activeContact)}
                     <Map
                       defaultState={{
                         center: activeContact
@@ -402,6 +426,10 @@ const Contacts: FC<IProps> = () => {
           </div>
         </div>
       </div>
+      <ServiceRegistrationForm
+        visible={isOpenModal}
+        onClose={() => setOpenModal(false)}
+      />
       <Footer />
       <FloatingFooter />
     </div>
