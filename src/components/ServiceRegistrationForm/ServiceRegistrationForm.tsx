@@ -2,7 +2,6 @@ import Modal from '../Modal/Modal';
 import './ServiceRegistrationForm.scss';
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
-import { Dropdown } from 'antd';
 import { Checkbox } from 'antd';
 import { DatePicker, Space } from 'antd';
 import { Input } from 'antd';
