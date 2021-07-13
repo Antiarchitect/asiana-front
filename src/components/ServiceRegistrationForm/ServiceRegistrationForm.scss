@@ -51,6 +51,7 @@
 .ServiceRegistrationForm-Link {
   color: red;
   text-decoration: underline;
+  cursor: pointer;
 
   &:hover {
     color: #de2a1b !important;
@@ -85,13 +86,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.ServiceRegistrationForm-Exclamatory {
-  color: white;
-  width: 5px;
-  height: 10px;
-  font-weight: bold;
 }
 
 .ServiceRegistrationForm-border-block {

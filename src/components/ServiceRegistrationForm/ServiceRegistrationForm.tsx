@@ -29,7 +29,6 @@ const ServiceRegistrationForm: FC<IProps> = ({ visible, onClose }) => {
         <div className="ServiceRegistrationForm-border-block mb-4 ">
           <div className="ServiceRegistrationForm-border ml-5 mr-5">
             <FaExclamation color={COLORS.white} size={30} />
-            {/* <p className="ServiceRegistrationForm-Exclamatory">!</p> */}
           </div>
 
           <div>
@@ -62,9 +61,9 @@ const ServiceRegistrationForm: FC<IProps> = ({ visible, onClose }) => {
             </select>
             <p>
               или{' '}
-              <Link to="/" className="ServiceRegistrationForm-Link">
+              <a href="/contacts" className="ServiceRegistrationForm-Link">
                 на карте
-              </Link>{' '}
+              </a>{' '}
             </p>
           </div>
         </div>
