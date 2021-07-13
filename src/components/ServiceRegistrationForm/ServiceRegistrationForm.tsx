@@ -5,6 +5,8 @@ import { Link } from 'react-router-dom';
 import { Checkbox } from 'antd';
 import { DatePicker, Space } from 'antd';
 import { Input } from 'antd';
+import { FaExclamation } from 'react-icons/fa';
+import { COLORS } from '../../constants';
 
 interface IExternalProps {
   onClose?: () => void;
@@ -17,11 +19,17 @@ interface IProps extends IExternalProps {}
 
 const ServiceRegistrationForm: FC<IProps> = ({ visible, onClose }) => {
   return (
-    <Modal width={1000} okText="Отправить" visible={visible} onClose={onClose}>
+    <Modal
+      width={1000}
+      className="ServiceRegistrationModal"
+      okText="Отправить"
+      visible={visible}
+      onClose={onClose}>
       <div>
-        <div className="ServiceRegistrationForm-border-block mb-4 mr-3">
+        <div className="ServiceRegistrationForm-border-block mb-4 ">
           <div className="ServiceRegistrationForm-border ml-5 mr-5">
-            <p className="ServiceRegistrationForm-Exclamatory">!</p>
+            <FaExclamation color={COLORS.white} size={30} />
+            {/* <p className="ServiceRegistrationForm-Exclamatory">!</p> */}
           </div>
 
           <div>
@@ -96,7 +104,7 @@ const ServiceRegistrationForm: FC<IProps> = ({ visible, onClose }) => {
             <p className="ServiceRegistrationForm-paragraph">
               Удобные для Вас дата и время посещения СТО:
             </p>
-            <DatePicker showTime />
+            <DatePicker showTime placeholder="Введите дату" />
           </Space>
         </div>
 

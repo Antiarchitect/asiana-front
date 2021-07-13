@@ -108,3 +108,15 @@
 .ServiceRegistrationForm-mt {
   margin-top: 10px;
 }
+
+.ServiceRegistrationModal button:not(.ant-btn-primary) {
+  display: none;
+}
+
+.ServiceRegistrationModal .ant-btn-primary {
+  &:hover,
+  &:focus {
+    background: #252525 !important;
+    border-color: #252525 !important;
+  }
+}
