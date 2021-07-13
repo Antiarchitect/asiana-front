@@ -22,6 +22,7 @@ import Action from '../../pages/Action/Action';
 import Auth from '../../pages/Auth/Auth';
 import Header from '../Header/Header';
 import NewsDetails from '../../pages/NewsDetails/NewsDetails';
+import DataProcessing from '../../pages/DataProcessing/DataProcessing';
 
 function App() {
   return (
@@ -43,6 +44,7 @@ function App() {
             <Route path="/delivery" component={DeliveryInRussia} />
             <Route path="/actions" component={Actions} />
             <Route path="/action/:id" component={Action} />
+            <Route path="/data-processing" component={DataProcessing} />
             <Redirect to="/" />
           </Switch>
         </div>

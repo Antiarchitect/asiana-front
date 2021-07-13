@@ -1,0 +1,21 @@
+.DataProcessing-paragraph-Li {
+  color: red;
+}
+
+.DataProcessing-paragraph-p {
+  color: black;
+}
+
+.DataProcessing-title {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.DataProcessing-Link {
+  text-decoration: underline;
+  color: red;
+
+  &:hover {
+    color: #de2a1b !important;
+  }
+}

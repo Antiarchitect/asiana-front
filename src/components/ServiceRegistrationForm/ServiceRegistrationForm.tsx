@@ -110,7 +110,7 @@ const ServiceRegistrationForm: FC<IProps> = ({ visible, onClose }) => {
 
       <p>
         Нажимая на кнопку «Отправить», вы даете{' '}
-        <Link to="/" className="ServiceRegistrationForm-Link">
+        <Link to="/data-processing" className="ServiceRegistrationForm-Link">
           согласие на обработку своих персональных данных.
         </Link>{' '}
       </p>
