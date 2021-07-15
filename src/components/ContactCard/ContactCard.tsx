@@ -7,11 +7,18 @@ interface IExternalProps {
   date: string;
   onClick?: (item: any) => void;
   item: any;
+  work_time: any;
 }
 
 interface IProps extends IExternalProps {}
 
-const ContactCard: FC<IProps> = ({ title, phone, date, onClick, item }) => {
+const ContactCard: FC<IProps> = ({
+  title,
+  phone,
+  onClick,
+  item,
+  work_time,
+}) => {
   const handleClick = (e: any) => {
     e.preventDefault();
     onClick && onClick(item);
@@ -24,6 +31,7 @@ const ContactCard: FC<IProps> = ({ title, phone, date, onClick, item }) => {
           {title}
         </a>
       )}
+
       {phone &&
         phone
           .split(' +7')
@@ -39,7 +47,14 @@ const ContactCard: FC<IProps> = ({ title, phone, date, onClick, item }) => {
               </a>
             ) : null,
           )}
-      {date && <span>{date}</span>}
+      <b>
+        {'пн-вс:    ' +
+          (work_time?.vs?.start_time
+            ? work_time?.vs?.start_time + ':00 -  '
+            : 'Нет данных')}
+        {work_time?.vs?.end_time ? work_time?.vs?.end_time + ':00' : ''}
+      </b>
+      {/* {date && <span>{date}</span>} */}
     </div>
   );
 };

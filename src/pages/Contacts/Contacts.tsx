@@ -5,13 +5,10 @@ import Footer from '../../components/Footer/Footer';
 import FloatingFooter from '../../components/FloatingFooter/FloatingFooter';
 import './Contacts.scss';
 import LeftSideBar from '../../components/LeftSideBar/LeftSideBar';
-import {
-  AiFillCar,
-  AiFillSetting,
-  AiFillShop,
-  AiTwotoneBank,
-  AiTwotoneSetting,
-} from 'react-icons/ai';
+import { AiFillCar, AiFillSetting } from 'react-icons/ai';
+import { FcSupport } from 'react-icons/fc';
+import { GiShoppingCart } from 'react-icons/gi';
+import { RiBuilding4Line } from 'react-icons/ri';
 import ContactCard from '../../components/ContactCard/ContactCard';
 import Button from '../../components/Button/Button';
 import { COLORS } from '../../constants';
@@ -27,7 +24,9 @@ import ServiceRegistrationForm from '../../components/ServiceRegistrationForm/Se
 
 const { TabPane } = Tabs;
 
-interface IExternalProps {}
+interface IExternalProps {
+  contact: any;
+}
 
 interface IProps extends IExternalProps {}
 
@@ -35,22 +34,22 @@ const tabs = [
   {
     id: 1,
     label: 'Магазины',
-    icon: <AiFillShop className="mr-2 " />,
+    icon: <GiShoppingCart className="mr-2 Contacts-GiShoppingCart" />,
   },
   {
     id: 2,
     label: 'Автосервисы',
-    icon: <AiTwotoneSetting className="mr-2" />,
+    icon: <FcSupport className="mr-2 Contacts-FcSupport" />,
   },
   {
     id: 3,
     label: 'Автосалоны',
-    icon: <AiFillCar className="mr-2" />,
+    icon: <AiFillCar className="mr-2 Contacts-AiFillCar" />,
   },
   {
     id: 4,
     label: 'Отделы компании',
-    icon: <AiTwotoneBank className="mr-2" />,
+    icon: <RiBuilding4Line className="mr-2 Contacts-RiBuilding4Line" />,
   },
   {
     id: 5,
@@ -68,6 +67,7 @@ const Contacts: FC<IProps> = () => {
   const [activeCity, setCity] = useState<any>(null);
   const [cities, setCities] = useState<any[]>([]);
   const [isOpenModal, setOpenModal] = useState(false);
+  const refBalloons: any = useRef<any>({});
 
   useEffect(() => {
     fetch(
@@ -202,6 +202,7 @@ const Contacts: FC<IProps> = () => {
       setTimeout(() => {
         const id = activeContact.Location.id;
         const button = document.getElementById(id);
+        console.log(id, button);
         if (button) {
           button.addEventListener('click', (e: any) => {
             setOpenModal(true);
@@ -213,26 +214,36 @@ const Contacts: FC<IProps> = () => {
   }, [activeContact, isOpenModal]);
 
   const ref = useCallback(
-    (Location: any) => (ref: any) => {
+    (Location: any, activeContact: any) => (ref: any) => {
       if (!ref?.balloon || !ref?.events) {
         return;
       }
 
-      setTimeout(() => {
-        if (
-          activeContact?.Location.lat === Location.lat &&
-          activeContact?.Location.lon === Location.lon &&
-          ref?.events?.types?.click?.length
-        ) {
-          ref.events?.types?.click[0]();
-          ref.balloon?.open();
-          // setLoading(false);
-        }
-      }, 10);
+      refBalloons.current = {
+        ...refBalloons.current,
+        [Location.id]: {
+          ref: ref,
+          click: ref.events?.types?.click[0],
+          open: ref.balloon?.open,
+        },
+      };
     },
-    [activeContact],
+    [],
   );
 
+  useEffect(() => {
+    if (activeContact && refBalloons.current[activeContact.Location.id]) {
+      refBalloons.current[activeContact.Location.id]?.ref.events?.types
+        ?.click[0]
+        ? refBalloons.current[
+            activeContact.Location.id
+          ].ref.events?.types?.click[0]()
+        : void 0;
+      refBalloons.current[activeContact.Location.id]?.ref.balloon?.open
+        ? refBalloons.current[activeContact.Location.id].ref.balloon?.open()
+        : void 0;
+    }
+  }, [activeContact]);
   return (
     <div className="page-with-header">
       <div className="container">
@@ -282,6 +293,7 @@ const Contacts: FC<IProps> = () => {
                           const city = cities.find(
                             (c) => c.id === Location.city_id,
                           );
+
                           return (
                             <Placemark
                               key={index}
@@ -293,7 +305,7 @@ const Contacts: FC<IProps> = () => {
                                   onClose: () => setContact(null),
                                 }),
                               }}
-                              instanceRef={ref(Location)}
+                              instanceRef={ref(Location, activeContact)}
                               modules={['geoObject.addon.balloon']}
                               options={{
                                 hasBalloon: Boolean(activeContact),
@@ -358,6 +370,7 @@ const Contacts: FC<IProps> = () => {
                                     date="пн-вс: 09:00-21:00"
                                     item={item}
                                     onClick={handleSelectContact}
+                                    work_time={item.work_time}
                                   />
                                 ))}
                               </div>
@@ -427,6 +440,7 @@ const Contacts: FC<IProps> = () => {
         </div>
       </div>
       <ServiceRegistrationForm
+        contact={activeContact}
         visible={isOpenModal}
         onClose={() => setOpenModal(false)}
       />

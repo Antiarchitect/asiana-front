@@ -1,6 +1,6 @@
 import Modal from '../Modal/Modal';
 import './ServiceRegistrationForm.scss';
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Checkbox } from 'antd';
 import { DatePicker, Space } from 'antd';
@@ -11,13 +11,32 @@ import { COLORS } from '../../constants';
 interface IExternalProps {
   onClose?: () => void;
   visible: boolean;
+  contact: any;
 }
 
 const { TextArea } = Input;
 
 interface IProps extends IExternalProps {}
 
-const ServiceRegistrationForm: FC<IProps> = ({ visible, onClose }) => {
+const ServiceRegistrationForm: FC<IProps> = ({ visible, contact, onClose }) => {
+  const [cities, setCities] = useState<any[]>([]);
+
+  useEffect(() => {
+    fetch(
+      'https://test-rest-api.site/api/1/site/location/list/?token=b4831f21df6202f5bacade4b7bbc3e5c',
+    )
+      .then((response) => response.json())
+      .then((data) =>
+        setCities(
+          data.data.map(({ Location: item }: any) => ({
+            id: item?.id,
+            label: item?.address,
+            ...item,
+          })),
+        ),
+      );
+  }, []);
+
   return (
     <Modal
       width={1000}
@@ -54,10 +73,15 @@ const ServiceRegistrationForm: FC<IProps> = ({ visible, onClose }) => {
           </div>
 
           <div className="ServiceRegistrationForm-Select">
-            <select
-              defaultValue="-Выберите сервис-"
-              className="textField-select mr-4">
+            <select className="textField-select mr-4">
               <option>- Выберите сервис -</option>
+              {cities.map((item) => (
+                <option
+                  selected={contact?.Location.id === item.id}
+                  key={item.id}>
+                  {item.label}
+                </option>
+              ))}
             </select>
             <p>
               или{' '}
@@ -103,7 +127,12 @@ const ServiceRegistrationForm: FC<IProps> = ({ visible, onClose }) => {
             <p className="ServiceRegistrationForm-paragraph">
               Удобные для Вас дата и время посещения СТО:
             </p>
-            <DatePicker showTime placeholder="Введите дату" />
+
+            <DatePicker
+              showTime
+              placeholder="Введите дату"
+              format="YYYY-MM-DD HH:mm"
+            />
           </Space>
         </div>
 

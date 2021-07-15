@@ -2,9 +2,9 @@ import './ContactsModal.scss';
 
 interface ContactsModal {
   contact: any;
+  item: any;
   onClose?: () => void;
   phone: string;
-  item: any;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -59,16 +59,10 @@ const ContactsModal = ({ contact, onClose }: ContactsModal) => {
             ? `<b class = 'contactsModal-Shop'>Технический центр:</b>
        `
             : ''
-        }           
-
-             
-
-              
+        }                      
     
   </div>
-         
-
-         
+          
         <div class = 'contactsModal-Paragraph-Block'>
         
           <b>Телефон:</b>
@@ -82,16 +76,22 @@ const ContactsModal = ({ contact, onClose }: ContactsModal) => {
 
         <div class = 'contactsModal-Paragraph-Block'>
           <b>График работы</b>
-          <p class = 'contactsModal-Paragraph mb-1'>${
-            contact?.Location?.address
-          }</p>
+          <p class = 'contactsModal-Paragraph mb-1'> ${
+            Boolean(
+              contact?.work_time?.vs?.start_time &&
+                contact?.work_time?.vs?.end_time,
+            )
+              ? 'пн-вс:   ' +
+                contact?.work_time?.vs?.start_time +
+                ':00 -  ' +
+                contact?.work_time?.vs?.end_time +
+                ':00'
+              : 'Нет данных'
+          } 
+            
+          </p>
         </div>  
         
-        
-
-
-
-
         <div class = 'contactsModal-d-flex'>
         </div> 
         </div>
