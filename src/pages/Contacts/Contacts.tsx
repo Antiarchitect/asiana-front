@@ -202,7 +202,7 @@ const Contacts: FC<IProps> = () => {
       setTimeout(() => {
         const id = activeContact.Location.id;
         const button = document.getElementById(id);
-        console.log(id, button);
+
         if (button) {
           button.addEventListener('click', (e: any) => {
             setOpenModal(true);
@@ -213,37 +213,39 @@ const Contacts: FC<IProps> = () => {
     }
   }, [activeContact, isOpenModal]);
 
-  const ref = useCallback(
-    (Location: any, activeContact: any) => (ref: any) => {
-      if (!ref?.balloon || !ref?.events) {
-        return;
-      }
+  // const ref = useCallback(
+  //   (Location: any, activeContact: any) => (ref: any) => {
+  //     if (!ref?.balloon || !ref?.events) {
+  //       return;
+  //     }
 
-      refBalloons.current = {
-        ...refBalloons.current,
-        [Location.id]: {
-          ref: ref,
-          click: ref.events?.types?.click[0],
-          open: ref.balloon?.open,
-        },
-      };
-    },
-    [],
-  );
+  //     refBalloons.current = {
+  //       ...refBalloons.current,
+  //       [Location.id]: {
+  //         ref: ref,
+  //         click: ref.events?.types?.click[0],
+  //         open: ref.balloon?.open,
+  //       },
+  //     };
+  //   },
+  //   [],
+  // );
 
-  useEffect(() => {
-    if (activeContact && refBalloons.current[activeContact.Location.id]) {
-      refBalloons.current[activeContact.Location.id]?.ref.events?.types
-        ?.click[0]
-        ? refBalloons.current[
-            activeContact.Location.id
-          ].ref.events?.types?.click[0]()
-        : void 0;
-      refBalloons.current[activeContact.Location.id]?.ref.balloon?.open
-        ? refBalloons.current[activeContact.Location.id].ref.balloon?.open()
-        : void 0;
-    }
-  }, [activeContact]);
+  // useEffect(() => {
+  //   console.log(activeContact, refBalloons)
+  //   if (activeContact && refBalloons.current[activeContact.Location.id]) {
+  //     refBalloons.current[activeContact.Location.id]?.ref.events?.types
+  //       ?.click[0]
+  //       ? refBalloons.current[
+  //           activeContact.Location.id
+  //         ].ref.events?.types?.click[0]()
+  //       : void 0;
+  //     refBalloons.current[activeContact.Location.id]?.ref.balloon?.open
+  //       ? refBalloons.current[activeContact.Location.id].ref.balloon?.open()
+  //       : void 0;
+  //   }
+  // }, [activeContact]);
+
   return (
     <div className="page-with-header">
       <div className="container">
@@ -305,7 +307,7 @@ const Contacts: FC<IProps> = () => {
                                   onClose: () => setContact(null),
                                 }),
                               }}
-                              instanceRef={ref(Location, activeContact)}
+                              // instanceRef={ref(Location, activeContact)}
                               modules={['geoObject.addon.balloon']}
                               options={{
                                 hasBalloon: Boolean(activeContact),
