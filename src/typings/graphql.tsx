@@ -595,7 +595,8 @@ export function useCreateUserMutation(
 export type CreateUserMutationHookResult = ReturnType<
   typeof useCreateUserMutation
 >;
-export type CreateUserMutationResult = Apollo.MutationResult<CreateUserMutation>;
+export type CreateUserMutationResult =
+  Apollo.MutationResult<CreateUserMutation>;
 export type CreateUserMutationOptions = Apollo.BaseMutationOptions<
   CreateUserMutation,
   CreateUserMutationVariables
@@ -645,7 +646,8 @@ export function useRefreshTokenMutation(
 export type RefreshTokenMutationHookResult = ReturnType<
   typeof useRefreshTokenMutation
 >;
-export type RefreshTokenMutationResult = Apollo.MutationResult<RefreshTokenMutation>;
+export type RefreshTokenMutationResult =
+  Apollo.MutationResult<RefreshTokenMutation>;
 export type RefreshTokenMutationOptions = Apollo.BaseMutationOptions<
   RefreshTokenMutation,
   RefreshTokenMutationVariables
@@ -744,7 +746,8 @@ export function useVerifyTokenMutation(
 export type VerifyTokenMutationHookResult = ReturnType<
   typeof useVerifyTokenMutation
 >;
-export type VerifyTokenMutationResult = Apollo.MutationResult<VerifyTokenMutation>;
+export type VerifyTokenMutationResult =
+  Apollo.MutationResult<VerifyTokenMutation>;
 export type VerifyTokenMutationOptions = Apollo.BaseMutationOptions<
   VerifyTokenMutation,
   VerifyTokenMutationVariables

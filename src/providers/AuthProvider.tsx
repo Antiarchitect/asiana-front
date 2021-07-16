@@ -19,12 +19,10 @@ const AuthProvider: FC<AuthProviderProps> = ({
   setToken,
 }) => {
   const history = useHistory();
-  const [verifyTokenRequest, { data, loading }] = useMutation(
-    VERIFY_TOKEN_AUTH,
-  );
-  const [refreshTokenRequest, { loading: refreshLoading }] = useMutation(
-    REFRESH_TOKEN_AUTH,
-  );
+  const [verifyTokenRequest, { data, loading }] =
+    useMutation(VERIFY_TOKEN_AUTH);
+  const [refreshTokenRequest, { loading: refreshLoading }] =
+    useMutation(REFRESH_TOKEN_AUTH);
   const token = getCookie('token');
   const tokenRefresh = getCookie('refreshToken');
 

@@ -25,10 +25,8 @@ const Auth: FC<IProps> = ({ setToken, token }) => {
   const redirectUrl = history.location.search.replace(/.+\=/, '');
 
   const [tokenAuth, { data: tokenAuthData, loading }] = useMutation(TOKEN_AUTH);
-  const [
-    createUser,
-    { data: createUserData, loading: createUserLoading },
-  ] = useMutation(CREATE_USER);
+  const [createUser, { data: createUserData, loading: createUserLoading }] =
+    useMutation(CREATE_USER);
   const [tab, setTab] = useState('1');
 
   function updateTab(key: string) {
