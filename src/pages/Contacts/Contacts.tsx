@@ -67,6 +67,7 @@ const Contacts: FC<IProps> = () => {
   const [activeCity, setCity] = useState<any>(null);
   const [cities, setCities] = useState<any[]>([]);
   const [isOpenModal, setOpenModal] = useState(false);
+  const [selectedAddress, setSelectedAddress] = useState(false);
   const refBalloons: any = useRef<any>({});
 
   useEffect(() => {
@@ -193,6 +194,7 @@ const Contacts: FC<IProps> = () => {
 
   const handleSelectContact = (item: any) => {
     setContact(item);
+    setSelectedAddress(true);
 
     window.scrollTo(0, 0);
   };
@@ -232,8 +234,12 @@ const Contacts: FC<IProps> = () => {
   );
 
   useEffect(() => {
-    console.log(activeContact, refBalloons);
-    if (activeContact && refBalloons.current[activeContact.Location.id]) {
+    if (
+      activeContact &&
+      refBalloons.current[activeContact.Location.id] &&
+      selectedAddress
+    ) {
+      console.log(activeContact, refBalloons);
       refBalloons.current[activeContact.Location.id]?.ref.events?.types
         ?.click[0]
         ? refBalloons.current[
@@ -244,7 +250,7 @@ const Contacts: FC<IProps> = () => {
         ? refBalloons.current[activeContact.Location.id].ref.balloon?.open()
         : void 0;
     }
-  }, [activeContact]);
+  }, [activeContact, selectedAddress]);
 
   return (
     <div className="page-with-header">
@@ -304,7 +310,10 @@ const Contacts: FC<IProps> = () => {
                                 // @ts-ignore
                                 balloonContent: ContactsModal({
                                   contact: { ...item, city },
-                                  onClose: () => setContact(null),
+                                  onClose: () => {
+                                    setContact(null);
+                                    setSelectedAddress(false);
+                                  },
                                 }),
                               }}
                               instanceRef={ref(Location, activeContact)}
