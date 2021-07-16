@@ -239,7 +239,6 @@ const Contacts: FC<IProps> = () => {
       refBalloons.current[activeContact.Location.id] &&
       selectedAddress
     ) {
-      console.log(activeContact, refBalloons);
       refBalloons.current[activeContact.Location.id]?.ref.events?.types
         ?.click[0]
         ? refBalloons.current[
@@ -305,7 +304,21 @@ const Contacts: FC<IProps> = () => {
                           return (
                             <Placemark
                               key={index}
-                              onClick={() => setContact(item)}
+                              onClick={() => {
+                                setContact(item);
+                                refBalloons.current[item.Location.id]?.ref
+                                  .events?.types?.click[0]
+                                  ? refBalloons.current[
+                                      item.Location.id
+                                    ].ref.events?.types?.click[0]()
+                                  : void 0;
+                                refBalloons.current[item.Location.id]?.ref
+                                  .balloon?.open
+                                  ? refBalloons.current[
+                                      item.Location.id
+                                    ].ref.balloon?.open()
+                                  : void 0;
+                              }}
                               properties={{
                                 // @ts-ignore
                                 balloonContent: ContactsModal({

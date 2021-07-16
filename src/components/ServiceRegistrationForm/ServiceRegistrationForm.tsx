@@ -3,10 +3,11 @@ import './ServiceRegistrationForm.scss';
 import { FC, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Checkbox } from 'antd';
-import { DatePicker, Space } from 'antd';
+import { Space } from 'antd';
 import { Input } from 'antd';
 import { FaExclamation } from 'react-icons/fa';
 import { COLORS } from '../../constants';
+import DatePicker from 'react-datepicker';
 
 interface IExternalProps {
   onClose?: () => void;
@@ -128,10 +129,20 @@ const ServiceRegistrationForm: FC<IProps> = ({ visible, contact, onClose }) => {
               Удобные для Вас дата и время посещения СТО:
             </p>
 
-            <DatePicker
+            {/* <DatePicker
               showTime
               placeholder="Введите дату"
               format="YYYY-MM-DD HH:mm"
+              minuteStep={15}
+            /> */}
+            <DatePicker
+              // selected={startDate}
+              onChange={(date: any) => {}}
+              locale="pt-BR"
+              showTimeSelect
+              timeFormat="p"
+              timeIntervals={15}
+              dateFormat="Pp"
             />
           </Space>
         </div>
