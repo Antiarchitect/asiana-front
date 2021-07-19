@@ -44,6 +44,10 @@
   justify-content: center;
 }
 
+.justify-content-space-between {
+  justify-content: space-between;
+}
+
 .flex-column {
   flex-direction: column;
 }
@@ -292,6 +296,15 @@
 
 .d-flex {
   display: flex !important;
+}
+
+.p-Font-Wight {
+  font-weight: bold;
+}
+
+.p-mb-pb {
+  margin-bottom: 0;
+  padding-bottom: 0;
 }
 
 .container {
