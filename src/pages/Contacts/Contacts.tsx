@@ -192,23 +192,44 @@ const Contacts: FC<IProps> = () => {
     },
   };
 
-  const handleSelectContact = (item: any) => {
-    setContact(item);
-    setSelectedAddress(true);
+  const handleSelectContact = useCallback(
+    (contact: any, current: any) => {
+      setContact(contact);
 
-    window.scrollTo(0, 0);
-  };
+      window.scrollTo(0, 0);
+    },
+    [refBalloons],
+  );
+
+  useEffect(() => {
+    if (activeContact && refBalloons.current[activeContact.Location.id]) {
+      refBalloons.current[activeContact.Location.id]?.ref.balloon?.open
+        ? refBalloons.current[activeContact.Location.id].ref.balloon?.open()
+        : void 0;
+    }
+  }, [activeContact]);
 
   useEffect(() => {
     if (activeContact) {
       setTimeout(() => {
         const id = activeContact.Location.id;
         const button = document.getElementById(id);
+        const buttonClose = document.querySelector(
+          '.ymaps-2-1-78-balloon__close-button',
+        );
 
         if (button) {
+          button.removeEventListener('click', () => {});
           button.addEventListener('click', (e: any) => {
             setOpenModal(true);
-            console.log('click');
+          });
+        }
+
+        if (buttonClose) {
+          buttonClose.removeEventListener('click', () => {});
+          buttonClose.addEventListener('click', () => {
+            setSelectedAddress(false);
+            setContact(null);
           });
         }
       }, 500);
@@ -233,23 +254,22 @@ const Contacts: FC<IProps> = () => {
     [],
   );
 
-  useEffect(() => {
-    if (
-      activeContact &&
-      refBalloons.current[activeContact.Location.id] &&
-      selectedAddress
-    ) {
-      refBalloons.current[activeContact.Location.id]?.ref.events?.types
-        ?.click[0]
-        ? refBalloons.current[
-            activeContact.Location.id
-          ].ref.events?.types?.click[0]()
-        : void 0;
-      refBalloons.current[activeContact.Location.id]?.ref.balloon?.open
-        ? refBalloons.current[activeContact.Location.id].ref.balloon?.open()
-        : void 0;
-    }
-  }, [activeContact, selectedAddress]);
+  // useEffect(() => {
+  //   if (
+  //     activeContact &&
+  //     refBalloons.current[activeContact.Location.id]
+  //   ) {
+  //     refBalloons.current[activeContact.Location.id]?.ref.events?.types
+  //       ?.click[0]
+  //       ? refBalloons.current[
+  //           activeContact.Location.id
+  //         ].ref.events?.types?.click[0](selectedAddress)
+  //       : void 0;
+  //       refBalloons.current[activeContact.Location.id]?.ref.balloon?.open
+  //       ? refBalloons.current[activeContact.Location.id].ref.balloon?.open()
+  //       : void 0;
+  //   }
+  // }, [activeContact, selectedAddress]);
 
   return (
     <div className="page-with-header">
@@ -305,19 +325,17 @@ const Contacts: FC<IProps> = () => {
                             <Placemark
                               key={index}
                               onClick={() => {
-                                setContact(item);
-                                refBalloons.current[item.Location.id]?.ref
-                                  .events?.types?.click[0]
-                                  ? refBalloons.current[
-                                      item.Location.id
-                                    ].ref.events?.types?.click[0]()
-                                  : void 0;
-                                refBalloons.current[item.Location.id]?.ref
-                                  .balloon?.open
-                                  ? refBalloons.current[
-                                      item.Location.id
-                                    ].ref.balloon?.open()
-                                  : void 0;
+                                setContact(null);
+
+                                setTimeout(() => setContact(item), 100);
+                                // open(item)
+                                // if (selectedAddress) {
+                                //   open(item)
+                                // }
+                              }}
+                              onClose={() => {
+                                setSelectedAddress(false);
+                                setContact(null);
                               }}
                               properties={{
                                 // @ts-ignore
@@ -325,7 +343,6 @@ const Contacts: FC<IProps> = () => {
                                   contact: { ...item, city },
                                   onClose: () => {
                                     setContact(null);
-                                    setSelectedAddress(false);
                                   },
                                 }),
                               }}
@@ -369,7 +386,12 @@ const Contacts: FC<IProps> = () => {
                           <AiFillSetting className="ml-1" />
                         </Button>
                       </Dropdown>
-                      <Tabs onChange={setActiveTab} activeKey={activeTab}>
+                      <Tabs
+                        onChange={(tab: any) => {
+                          setActiveTab(tab);
+                          setContact(null);
+                        }}
+                        activeKey={activeTab}>
                         {tabs.map((item: any) => (
                           <TabPane
                             tab={
@@ -393,7 +415,12 @@ const Contacts: FC<IProps> = () => {
                                     phone={item.Location.phones}
                                     date="пн-вс: 09:00-21:00"
                                     item={item}
-                                    onClick={handleSelectContact}
+                                    onClick={(...r) =>
+                                      handleSelectContact(
+                                        ...r,
+                                        refBalloons?.current,
+                                      )
+                                    }
                                     work_time={item.work_time}
                                   />
                                 ))}

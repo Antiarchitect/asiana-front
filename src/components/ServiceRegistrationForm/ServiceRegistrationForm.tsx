@@ -4,10 +4,10 @@ import { FC, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Checkbox } from 'antd';
 import { Space } from 'antd';
-import { Input } from 'antd';
+import { Input, DatePicker } from 'antd';
 import { FaExclamation } from 'react-icons/fa';
 import { COLORS } from '../../constants';
-import DatePicker from 'react-datepicker';
+// import DatePicker from 'react-datepicker';
 
 interface IExternalProps {
   onClose?: () => void;
@@ -21,6 +21,7 @@ interface IProps extends IExternalProps {}
 
 const ServiceRegistrationForm: FC<IProps> = ({ visible, contact, onClose }) => {
   const [cities, setCities] = useState<any[]>([]);
+  const [startDate, setStartDate] = useState<any>(new Date());
 
   useEffect(() => {
     fetch(
@@ -129,21 +130,25 @@ const ServiceRegistrationForm: FC<IProps> = ({ visible, contact, onClose }) => {
               Удобные для Вас дата и время посещения СТО:
             </p>
 
-            {/* <DatePicker
+            <DatePicker
               showTime
               placeholder="Введите дату"
               format="YYYY-MM-DD HH:mm"
               minuteStep={15}
-            /> */}
-            <DatePicker
-              // selected={startDate}
-              onChange={(date: any) => {}}
+            />
+
+            {/* <DatePicker
+              className = 'ServiceRegistrationForm-DatePicker'
+              selected={startDate}
+              onChange={(date) => setStartDate(date)}
               locale="pt-BR"
               showTimeSelect
               timeFormat="p"
               timeIntervals={15}
               dateFormat="Pp"
+              placeholderText="Введите дату"
             />
+           */}
           </Space>
         </div>
 
