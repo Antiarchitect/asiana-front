@@ -191,14 +191,11 @@ const Contacts: FC<IProps> = () => {
     },
   };
 
-  const handleSelectContact = useCallback(
-    (contact: any, current: any) => {
-      setContact(contact);
+  const handleSelectContact = useCallback((contact: any, current: any) => {
+    setContact(contact);
 
-      window.scrollTo(0, 0);
-    },
-    [refBalloons],
-  );
+    window.scrollTo(0, 0);
+  }, []);
 
   useEffect(() => {
     if (activeContact && refBalloons.current[activeContact.Location.id]) {
