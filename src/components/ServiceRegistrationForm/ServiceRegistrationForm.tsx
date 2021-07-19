@@ -7,7 +7,6 @@ import { Space } from 'antd';
 import { Input, DatePicker } from 'antd';
 import { FaExclamation } from 'react-icons/fa';
 import { COLORS } from '../../constants';
-// import DatePicker from 'react-datepicker';
 
 interface IExternalProps {
   onClose?: () => void;
@@ -21,7 +20,6 @@ interface IProps extends IExternalProps {}
 
 const ServiceRegistrationForm: FC<IProps> = ({ visible, contact, onClose }) => {
   const [cities, setCities] = useState<any[]>([]);
-  const [startDate, setStartDate] = useState<any>(new Date());
 
   useEffect(() => {
     fetch(
@@ -136,19 +134,6 @@ const ServiceRegistrationForm: FC<IProps> = ({ visible, contact, onClose }) => {
               format="YYYY-MM-DD HH:mm"
               minuteStep={15}
             />
-
-            {/* <DatePicker
-              className = 'ServiceRegistrationForm-DatePicker'
-              selected={startDate}
-              onChange={(date) => setStartDate(date)}
-              locale="pt-BR"
-              showTimeSelect
-              timeFormat="p"
-              timeIntervals={15}
-              dateFormat="Pp"
-              placeholderText="Введите дату"
-            />
-           */}
           </Space>
         </div>
 
