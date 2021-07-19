@@ -67,7 +67,6 @@ const Contacts: FC<IProps> = () => {
   const [activeCity, setCity] = useState<any>(null);
   const [cities, setCities] = useState<any[]>([]);
   const [isOpenModal, setOpenModal] = useState(false);
-  const [selectedAddress, setSelectedAddress] = useState(false);
   const refBalloons: any = useRef<any>({});
 
   useEffect(() => {
@@ -228,7 +227,6 @@ const Contacts: FC<IProps> = () => {
         if (buttonClose) {
           buttonClose.removeEventListener('click', () => {});
           buttonClose.addEventListener('click', () => {
-            setSelectedAddress(false);
             setContact(null);
           });
         }
@@ -334,7 +332,6 @@ const Contacts: FC<IProps> = () => {
                                 // }
                               }}
                               onClose={() => {
-                                setSelectedAddress(false);
                                 setContact(null);
                               }}
                               properties={{
