@@ -19,16 +19,6 @@ export default class extends React.Component {
       <Carousel
         className="Carousel-Block mt-5"
         slideIndex={this.state.slideIndex}
-        //   afterSlide = { slideIndex  =>  {
-        //       console.log(slideIndex)
-        //       if (slideIndex + 1 === 6) {
-
-        //       this.setState ( { slideIndex: 1 } )
-        //           return
-        //       }
-        //     this.setState ( { slideIndex } )
-        //   }}
-
         renderCenterLeftControls={({ previousSlide }) => (
           <button className="Carousel-icon-Block" onClick={previousSlide}>
             <GoArrowSmallLeft className="Carousel-icon" />
@@ -38,11 +28,7 @@ export default class extends React.Component {
           <button className="Carousel-icon-Block" onClick={nextSlide}>
             <GoArrowSmallRight className="Carousel-icon" />
           </button>
-        )}
-        //   renderBottomCenterControls={({ nextSlide }) => (
-        //     <button></button>
-        //   )}
-      >
+        )}>
         <img className="Carousel-img" src={Science} alt="/" />
         <img className="Carousel-img" src={Industrial} alt="/" />
         <img className="Carousel-img" src={Parashutnaya} alt="/" />
