@@ -1,0 +1,43 @@
+.Carousel-Block {
+  width: 100% !important;
+  height: 300px !important;
+}
+
+.Carousel-img {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.Carousel-icon {
+  height: 50px;
+  width: 50px;
+  color: white;
+}
+
+.paging-item {
+  margin: 0 10px;
+}
+
+.paging-item button {
+  fill: white !important;
+}
+
+.paging-dot {
+  width: 10px;
+  height: 10px;
+}
+
+.paging-dot circle {
+  r: 5;
+  cx: 5;
+  cy: 5;
+}
+
+.Carousel-icon-Block {
+  display: flex;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  justify-content: center;
+  align-items: center;
+}

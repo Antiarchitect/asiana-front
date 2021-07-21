@@ -7,6 +7,7 @@ import { Space } from 'antd';
 import { Input, DatePicker } from 'antd';
 import { FaExclamation } from 'react-icons/fa';
 import { COLORS } from '../../constants';
+import InputMask from 'react-input-mask';
 
 interface IExternalProps {
   onClose?: () => void;
@@ -110,7 +111,10 @@ const ServiceRegistrationForm: FC<IProps> = ({ visible, contact, onClose }) => {
           </div>
 
           <div className="ServiceRegistrationForm-Select">
-            <input className="textField-input mr-4"></input>
+            <InputMask
+              className="ServiceRegistrationForm-InputMask textField-input mr-4"
+              mask="+7 (999) 999-99-99"
+            />
           </div>
         </div>
 

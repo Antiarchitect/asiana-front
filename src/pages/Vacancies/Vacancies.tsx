@@ -4,7 +4,6 @@ import FloatingFooter from '../../components/FloatingFooter/FloatingFooter';
 import './Vacancies.scss';
 import Breadcrumbs from '../../components/Breadcrumbs/Breadcrumbs';
 import Button from '../../components/Button/Button';
-import { Carousel } from 'antd';
 // @ts-ignore
 import WOW from 'wowjs';
 import { Link } from 'react-router-dom';
@@ -12,6 +11,8 @@ import { FaTelegram } from 'react-icons/fa';
 import { FaWhatsappSquare } from 'react-icons/fa';
 import { Input } from 'antd';
 import { Checkbox } from 'antd';
+import DemoCarousel from '../../components/DemoCarousel/DemoCarousel';
+import InputMask from 'react-input-mask';
 
 interface IExternalProps {}
 
@@ -20,21 +21,13 @@ interface IProps extends IExternalProps {}
 const Vacancies: FC<IProps> = () => {
   const { TextArea } = Input;
 
-  const contentStyle: any = {
-    height: '160px',
-    color: '#fff',
-    lineHeight: '160px',
-    textAlign: 'center',
-    background: '#364d79',
-  };
-
   useEffect(() => {
     new WOW.WOW().init();
   }, []);
 
-  function onChange(a: any) {
-    console.log(a);
-  }
+  // function onChange(a: any) {
+  //   console.log(a);
+  // }
 
   return (
     <div className="page-with-header">
@@ -43,17 +36,7 @@ const Vacancies: FC<IProps> = () => {
           <Breadcrumbs />
         </div>
 
-        <Carousel afterChange={onChange}>
-          <div>
-            <h3 style={contentStyle}>1</h3>
-          </div>
-          <div>
-            <h3 style={contentStyle}>2</h3>
-          </div>
-          <div>
-            <h3 style={contentStyle}>3</h3>
-          </div>
-        </Carousel>
+        <DemoCarousel />
 
         <h1 className="Vacancies-title">
           <b>Актуальные вакансии</b>
@@ -77,6 +60,7 @@ const Vacancies: FC<IProps> = () => {
           <p className="Vacancies-Parapraht2">регион</p>
           <p className="Vacancies-Parapraht2">структурного подразделения</p>
           <p className="Vacancies-Parapraht3">зарплата</p>
+
           <Button className="Vacancies-Button">Откликнуться</Button>
         </div>
         <div className="Vacancies-Block">
@@ -93,10 +77,29 @@ const Vacancies: FC<IProps> = () => {
               <b>Отдел персонала</b>
             </h2>
             <p className="mb-2 p-Font-Wight">Контактные телефоны</p>
-            <p className="p-mb-pb ">8(812) 703 5 11 (С.Петербург)</p>
-            <p className="p-mb-pb ">8(495) 703 5 11 (Москва)</p>
-            <p>8(800) 703 5 11 (Звонок по России бесплатный)</p>
-            <p className="mb-2 p-Font-Wight">
+            <div className="Vacancies-phone">
+              <a className="Vacancies-phone-a" href="tel:+79004700881 ">
+                +7 (900) 470-08-81;
+              </a>
+              <p className="Vacancies-p-mb ml-1">(Санкт-Петербург)</p>
+            </div>
+            <div className="Vacancies-phone">
+              <a className="Vacancies-phone-a" href="tel:+79004700881 ">
+                +7 (900) 470-08-81;
+              </a>
+              <p className="Vacancies-p-mb ml-1">(Москва)</p>
+            </div>
+
+            <div className="Vacancies-phone">
+              <a className="Vacancies-phone-a" href="tel:+79004700881 ">
+                +7 (900) 470-08-81;
+              </a>
+              <p className="Vacancies-p-mb ml-1">
+                (Звонок по России бесплатный)
+              </p>
+            </div>
+
+            <p className="mb-2 mt-2 p-Font-Wight">
               Профили на сервисах поиска работы
             </p>
             <div>
@@ -144,8 +147,12 @@ const Vacancies: FC<IProps> = () => {
             </h3>
             <div>
               <div className="Vacancies-Input-block">
-                <Input className="mr-3" placeholder="Как к Вам обращаться?" />
-                <Input placeholder="Номер телефона" />
+                <Input className="mr-2" placeholder="Как к Вам обращаться?" />
+                <InputMask
+                  className="Vacancies-InputMask"
+                  mask="+7 (999) 999-99-99"
+                  placeholder="Номер телефона"
+                />
               </div>
               <TextArea
                 rows={4}
@@ -180,13 +187,6 @@ const Vacancies: FC<IProps> = () => {
             </div>
           </div>
         </div>
-
-        {/* <p className="Vacancies-contact">
-                  {' '}
-                  <b> По вопросам работы в компании: </b> Чураков Филипп
-                  Анатольевич;{' '}
-                  <a href="tel:+79004700881;">+7 (900) 470-08-81;</a>
-                </p> */}
       </div>
       <Footer />
       <FloatingFooter />

@@ -70,3 +70,34 @@
 .ant-carousel .slick-dots {
   margin-left: 0%;
 }
+
+.Vacancies-phone {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+}
+
+.Vacancies-p-mb {
+  margin-bottom: 0;
+}
+
+.Vacancies-phone-a {
+  color: #e02707;
+
+  &:hover {
+    text-decoration: underline;
+    color: rgb(206, 60, 7);
+  }
+}
+
+.Vacancies-InputMask {
+  width: 50%;
+  border: 1px solid #d9d9d9;
+  border-radius: 2px;
+  padding-left: 10px;
+}
+
+::placeholder {
+  /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: #d9d9d9 !important;
+}
