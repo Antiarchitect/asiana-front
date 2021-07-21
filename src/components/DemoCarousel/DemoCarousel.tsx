@@ -10,7 +10,7 @@ import Sofiyskaya from '../../assets/Sofiyskaya.jpg';
 import { GoArrowSmallLeft } from 'react-icons/go';
 import { GoArrowSmallRight } from 'react-icons/go';
 
-export default class extends React.Component {
+class DemoCarousel extends React.Component {
   state = {
     slideIndex: 0,
   };
@@ -39,3 +39,4 @@ export default class extends React.Component {
     );
   }
 }
+export default DemoCarousel;
