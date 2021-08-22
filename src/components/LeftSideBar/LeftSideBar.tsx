@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useCallback, useEffect, useState } from 'react';
 import { Menu } from 'antd';
 import './LeftSideBar.scss';
 import SubMenu from 'antd/lib/menu/SubMenu';
@@ -15,13 +15,14 @@ interface IMenuItem {
 
 interface IExternalProps {
   menu?: Array<IMenuItem>;
+  defaultSelected?: any;
 }
 
 interface IProps extends IExternalProps {
   onSelect?: (item: any) => void;
 }
 
-const LeftSideBar: FC<IProps> = ({ onSelect }) => {
+const LeftSideBar: FC<IProps> = ({ onSelect, defaultSelected }) => {
   const [cities, setCities] = useState<any[]>([]);
 
   useEffect(() => {
@@ -33,6 +34,7 @@ const LeftSideBar: FC<IProps> = ({ onSelect }) => {
         setCities(
           data.data.map(({ City: item }: any) => ({
             id: item.id,
+            ...item,
             label: {
               type: 'title',
               value: item.name,
@@ -46,29 +48,46 @@ const LeftSideBar: FC<IProps> = ({ onSelect }) => {
     return item.submenu?.map(renderMenu);
   };
 
-  const renderMenu = (item: any, key: number) => {
-    const className =
-      item.label.type === 'title'
-        ? 'LeftSideBar-title LeftSideBar-item'
-        : 'LeftSideBar-item';
+  const renderMenu = useCallback(
+    (item: any, key: number) => {
+      const className =
+        item.label.type === 'title'
+          ? 'LeftSideBar-title LeftSideBar-item'
+          : 'LeftSideBar-item';
 
-    if (!item.submenu) {
+      if (!item.submenu) {
+        return (
+          <Menu.Item
+            className={
+              defaultSelected?.id === item.id ? 'ant-menu-item-selected' : ''
+            }
+            onClick={() =>
+              defaultSelected?.id !== item.id
+                ? onSelect
+                  ? onSelect(item)
+                  : null
+                : null
+            }
+            key={item.id}>
+            <span className={className}>{item.label.value}</span>
+          </Menu.Item>
+        );
+      }
+
       return (
-        <Menu.Item onClick={() => (onSelect ? onSelect(item) : null)} key={key}>
-          <span className={className}>{item.label.value}</span>
-        </Menu.Item>
+        <SubMenu className={className} key={key} title={item.label.value}>
+          {renderSubmenu(item)}
+        </SubMenu>
       );
-    }
-
-    return (
-      <SubMenu className={className} key={key} title={item.label.value}>
-        {renderSubmenu(item)}
-      </SubMenu>
-    );
-  };
+    },
+    [defaultSelected],
+  );
 
   return (
-    <Menu className="LeftSideBar" mode="inline">
+    <Menu
+      className="LeftSideBar"
+      defaultSelectedKeys={[defaultSelected?.id]}
+      mode="inline">
       {cities.map(renderMenu)}
     </Menu>
   );

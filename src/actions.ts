@@ -46,6 +46,18 @@ export const setAddress = (address: ContactType) => {
   };
 };
 
+export const startRequest = () => {
+  return {
+    type: 'START_REQUEST',
+  };
+};
+
+export const stopRequest = () => {
+  return {
+    type: 'STOP_REQUEST',
+  };
+};
+
 export const setCity = (city: CityType) => {
   return {
     type: 'SET_CITY',

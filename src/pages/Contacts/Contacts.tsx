@@ -12,6 +12,9 @@ import { RiBuilding4Line } from 'react-icons/ri';
 import ContactCard from '../../components/ContactCard/ContactCard';
 import Button from '../../components/Button/Button';
 import { COLORS } from '../../constants';
+import { setCity } from '../../actions';
+
+import { setCookie } from '../../services/cookie';
 // @ts-ignore
 import WOW from 'wowjs';
 import { Placemark, YMaps, Map } from 'react-yandex-maps';
@@ -21,6 +24,7 @@ import stoIcon from '../../assets/autoservice.png';
 import dealerIcon from '../../assets/autoshow.png';
 import { setTimeout } from 'timers';
 import ServiceRegistrationForm from '../../components/ServiceRegistrationForm/ServiceRegistrationForm';
+import { connect } from 'react-redux';
 
 const { TabPane } = Tabs;
 
@@ -28,7 +32,11 @@ interface IExternalProps {
   contact: any;
 }
 
-interface IProps extends IExternalProps {}
+interface IProps extends IExternalProps {
+  setCity: any;
+  city: any;
+  loading: boolean;
+}
 
 const tabs = [
   {
@@ -57,14 +65,17 @@ const tabs = [
   },
 ];
 
-const Contacts: FC<IProps> = () => {
+const Contacts: FC<IProps> = ({
+  city: activeCity,
+  setCity,
+  loading: loadStore,
+}) => {
   const [contacts, setContacts] = useState<any>([]);
   const [loading, setLoading] = useState(false);
   const [contactsTab, setContactsTab] = useState<any>([]);
   const [loadingTabs, setLoadingTabs] = useState(false);
   const [activeContact, setContact] = useState<any>(null);
   const [activeTab, setActiveTab] = useState<any>('1');
-  const [activeCity, setCity] = useState<any>(null);
   const [cities, setCities] = useState<any[]>([]);
   const [isOpenModal, setOpenModal] = useState(false);
   const refBalloons: any = useRef<any>({});
@@ -126,7 +137,12 @@ const Contacts: FC<IProps> = () => {
   // }, [activeContact]);
 
   useEffect(() => {
+    console.log(loadStore, activeCity, 'activeCity');
+    if (loadStore) {
+      return;
+    }
     setLoading(true);
+
     fetch(
       `https://test-rest-api.site/api/1/mobile/location/list/?token=b4831f21df6202f5bacade4b7bbc3e5c${
         activeCity ? `&city_id=${activeCity.id}` : ''
@@ -135,9 +151,12 @@ const Contacts: FC<IProps> = () => {
       .then((response) => response.json())
       .then((data) => setContacts(data.data))
       .finally(() => setLoading(false));
-  }, [activeCity]);
+  }, [activeCity, loadStore]);
 
   useEffect(() => {
+    if (loadStore) {
+      return;
+    }
     setLoadingTabs(true);
     fetch(
       `https://test-rest-api.site/api/1/mobile/location/list/?token=b4831f21df6202f5bacade4b7bbc3e5c${
@@ -148,7 +167,7 @@ const Contacts: FC<IProps> = () => {
       .then((response) => response.json())
       .then((data) => setContactsTab(Array.isArray(data.data) ? data.data : []))
       .finally(() => setLoadingTabs(false));
-  }, [activeTab, activeCity, tabsObj]);
+  }, [activeTab, activeCity, tabsObj, loadStore]);
 
   useEffect(() => {
     new WOW.WOW().init();
@@ -275,14 +294,27 @@ const Contacts: FC<IProps> = () => {
               <Breadcrumbs />
             </div>
             <h1 className="Contacts-h1">
-              Магазины автозапчастей в городе Санкт-Петербург
+              Магазины автозапчастей в городе {activeCity?.name}
             </h1>
             <section className="section-leftSideBar-map">
-              <LeftSideBar onSelect={setCity} />
+              <LeftSideBar
+                defaultSelected={{
+                  ...activeCity,
+                  label: { type: 'title', value: activeCity?.name },
+                }}
+                onSelect={(item) => {
+                  setCity({ ...item, name: item.label.value });
+                  setCookie(
+                    'region',
+                    JSON.stringify({ ...item, name: item.label.value }),
+                  );
+                }}
+              />
               <div>
-                <Spin spinning={loading}>
+                <Spin spinning={loading || loadStore}>
                   <YMaps ref={map}>
                     <Map
+                      key={JSON.stringify(contacts)}
                       defaultState={{
                         center: activeContact
                           ? [
@@ -495,4 +527,9 @@ const Contacts: FC<IProps> = () => {
   );
 };
 
-export default Contacts;
+const mapStateToProps = (state: any) => ({
+  city: state.city,
+  loading: state.loading,
+});
+
+export default connect(mapStateToProps, { setCity })(Contacts);

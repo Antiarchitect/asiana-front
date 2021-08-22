@@ -9,12 +9,15 @@ import { Spin, Tooltip } from 'antd';
 import RegionSelectionModal from '../RegionSelectionModal/RegionSelectionModal';
 import { getCookie } from '../../services/cookie';
 import { connect } from 'react-redux';
-import { setCity } from '../../actions';
+import { setCity, startRequest, stopRequest } from '../../actions';
 
 interface IExternalProps {}
 
 interface IProps extends IExternalProps {
   setCity?: any;
+  city: any;
+  startRequest: () => any;
+  stopRequest: () => any;
 }
 
 export interface CityType {
@@ -31,18 +34,25 @@ export interface CityRequestType {
   version_api: string;
 }
 
-const SubHeader: FC<IProps> = ({ setCity }) => {
+const SubHeader: FC<IProps> = ({
+  setCity,
+  city: region,
+  startRequest,
+  stopRequest,
+}) => {
   const [isOpenModal, setOpenModal] = useState(false);
   const [data, setData] = useState<CityRequestType | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-  const [region, setRegion] = useState<CityType | null>(null);
+  // const [region, setRegion] = useState<CityType | null>(null);
 
   const updateRegion = useCallback(() => {
+    startRequest();
     const regJson = getCookie('region');
-    setRegion(regJson ? JSON.parse(regJson) : null);
+    // setRegion(regJson ? JSON.parse(regJson) : null);
     setCity(regJson ? JSON.parse(regJson) : null);
-  }, [setRegion, setCity]);
+    setTimeout(stopRequest, 2000);
+  }, [setCity]);
 
   useEffect(() => {
     updateRegion();
@@ -117,4 +127,6 @@ const mapStateToProps = (state: any) => ({
   city: state.city,
 });
 
-export default connect(mapStateToProps, { setCity })(SubHeader);
+export default connect(mapStateToProps, { setCity, startRequest, stopRequest })(
+  SubHeader,
+);

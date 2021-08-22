@@ -9,12 +9,14 @@ export interface InitialStateType {
   token: null | string;
   address: ContactType | null;
   city: CityType | null;
+  loading: boolean;
 }
 
 const initialState: InitialStateType = {
   cartProducts: [],
   token: null,
   address: null,
+  loading: false,
   city: null,
 };
 
@@ -27,6 +29,16 @@ const reducer = (
   action: { type: string; payload: any },
 ) => {
   switch (action.type) {
+    case 'START_REQUEST':
+      return {
+        ...state,
+        loading: true,
+      };
+    case 'STOP_REQUEST':
+      return {
+        ...state,
+        loading: false,
+      };
     case 'SET_CITY':
       return {
         ...state,
