@@ -1,4 +1,4 @@
-import { FC, useCallback, useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { Menu } from 'antd';
 import './LeftSideBar.scss';
 import SubMenu from 'antd/lib/menu/SubMenu';

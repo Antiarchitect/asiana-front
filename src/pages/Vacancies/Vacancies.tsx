@@ -6,7 +6,7 @@ import Breadcrumbs from '../../components/Breadcrumbs/Breadcrumbs';
 import Button from '../../components/Button/Button';
 // @ts-ignore
 import WOW from 'wowjs';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { FaTelegram } from 'react-icons/fa';
 import { FaWhatsappSquare } from 'react-icons/fa';
 import { Input } from 'antd';
@@ -22,7 +22,6 @@ interface IProps extends IExternalProps {}
 
 const Vacancies: FC<IProps> = () => {
   const { TextArea } = Input;
-  const history = useHistory();
 
   // const authHHru = () => {
   //   axios.get(`/employers/4651161/vacancies/active`, {
