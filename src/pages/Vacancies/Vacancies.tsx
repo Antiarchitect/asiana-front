@@ -13,8 +13,6 @@ import { Input } from 'antd';
 import { Checkbox } from 'antd';
 import DemoCarousel from '../../components/DemoCarousel/DemoCarousel';
 import InputMask from 'react-input-mask';
-// import axios from 'axios';
-// import axios from 'axios'
 
 interface IExternalProps {}
 
