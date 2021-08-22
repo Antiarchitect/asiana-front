@@ -13,7 +13,7 @@ import { Input } from 'antd';
 import { Checkbox } from 'antd';
 import DemoCarousel from '../../components/DemoCarousel/DemoCarousel';
 import InputMask from 'react-input-mask';
-import axios from 'axios';
+// import axios from 'axios';
 // import axios from 'axios'
 
 interface IExternalProps {}
@@ -42,10 +42,10 @@ const Vacancies: FC<IProps> = () => {
   // Запрос авторизации приложения в hh-api
 
   const authHHru = () => {
-    const local = window.location;
+    // const local = window.location;
 
-    const code =
-      'NR8D7SD5A586KH6I7ORPFL4R293F16KI93QLJGE1PDB3VT28MD1IRO8CDTPP62NU';
+    // const code =
+    //   'NR8D7SD5A586KH6I7ORPFL4R293F16KI93QLJGE1PDB3VT28MD1IRO8CDTPP62NU';
 
     // step 1, auth for hh.ru
     // window.location.replace(`https://hh.ru/oauth/authorize?response_type=code&client_id=SAV2FKJST8FV0O3DNOKAV836EVCPRB3RP3KGVAN4K7I5905V56B2F6M4AFH9R8F3`)
@@ -322,10 +322,3 @@ const Vacancies: FC<IProps> = () => {
 };
 
 export default Vacancies;
-function setCities(arg0: any): any {
-  throw new Error('Function not implemented.');
-}
-
-function data(data: any): BodyInit | null | undefined {
-  throw new Error('Function not implemented.');
-}

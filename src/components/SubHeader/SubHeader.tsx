@@ -52,7 +52,7 @@ const SubHeader: FC<IProps> = ({
     // setRegion(regJson ? JSON.parse(regJson) : null);
     setCity(regJson ? JSON.parse(regJson) : null);
     setTimeout(stopRequest, 2000);
-  }, [setCity]);
+  }, [setCity, stopRequest, startRequest]);
 
   useEffect(() => {
     updateRegion();

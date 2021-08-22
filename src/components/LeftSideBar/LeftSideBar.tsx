@@ -48,40 +48,37 @@ const LeftSideBar: FC<IProps> = ({ onSelect, defaultSelected }) => {
     return item.submenu?.map(renderMenu);
   };
 
-  const renderMenu = useCallback(
-    (item: any, key: number) => {
-      const className =
-        item.label.type === 'title'
-          ? 'LeftSideBar-title LeftSideBar-item'
-          : 'LeftSideBar-item';
+  const renderMenu = (item: any, key: number) => {
+    const className =
+      item.label.type === 'title'
+        ? 'LeftSideBar-title LeftSideBar-item'
+        : 'LeftSideBar-item';
 
-      if (!item.submenu) {
-        return (
-          <Menu.Item
-            className={
-              defaultSelected?.id === item.id ? 'ant-menu-item-selected' : ''
-            }
-            onClick={() =>
-              defaultSelected?.id !== item.id
-                ? onSelect
-                  ? onSelect(item)
-                  : null
-                : null
-            }
-            key={item.id}>
-            <span className={className}>{item.label.value}</span>
-          </Menu.Item>
-        );
-      }
-
+    if (!item.submenu) {
       return (
-        <SubMenu className={className} key={key} title={item.label.value}>
-          {renderSubmenu(item)}
-        </SubMenu>
+        <Menu.Item
+          className={
+            defaultSelected?.id === item.id ? 'ant-menu-item-selected' : ''
+          }
+          onClick={() =>
+            defaultSelected?.id !== item.id
+              ? onSelect
+                ? onSelect(item)
+                : null
+              : null
+          }
+          key={item.id}>
+          <span className={className}>{item.label.value}</span>
+        </Menu.Item>
       );
-    },
-    [defaultSelected],
-  );
+    }
+
+    return (
+      <SubMenu className={className} key={key} title={item.label.value}>
+        {renderSubmenu(item)}
+      </SubMenu>
+    );
+  };
 
   return (
     <Menu
