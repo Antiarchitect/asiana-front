@@ -321,14 +321,24 @@ const Contacts: FC<IProps> = ({
                               Number(activeContact?.Location.lat),
                               Number(activeContact?.Location.lon),
                             ]
+                          : contacts?.length
+                          ? [
+                              Number(contacts[0].Location.lat),
+                              Number(contacts[0].Location.lon),
+                            ]
                           : [55.751574, 37.573856],
-                        zoom: 5,
+                        zoom: contacts?.length >= 2 ? 10 : 4 + contacts?.length,
                       }}
                       center={
                         activeContact
                           ? [
                               Number(activeContact?.Location.lat),
                               Number(activeContact?.Location.lon),
+                            ]
+                          : contacts?.length
+                          ? [
+                              Number(contacts[0].Location.lat),
+                              Number(contacts[0].Location.lon),
                             ]
                           : [55.751574, 37.573856]
                       }

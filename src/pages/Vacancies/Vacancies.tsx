@@ -1,4 +1,4 @@
-import { FC, useEffect } from 'react';
+import { FC, useEffect, useState } from 'react';
 import Footer from '../../components/Footer/Footer';
 import FloatingFooter from '../../components/FloatingFooter/FloatingFooter';
 import './Vacancies.scss';
@@ -20,6 +20,7 @@ interface IProps extends IExternalProps {}
 
 const Vacancies: FC<IProps> = () => {
   const { TextArea } = Input;
+  const [vacancies, setVacancies] = useState([]);
 
   // const authHHru = () => {
   //   axios.get(`/employers/4651161/vacancies/active`, {
@@ -72,14 +73,13 @@ const Vacancies: FC<IProps> = () => {
     // token_type: "bearer"
 
     fetch(`/employers/4651161/vacancies/active`, {
-      mode: 'no-cors',
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
         Authorization:
           'Bearer H49PB1QHDOF0OKEO3V80PKS057LL7UA7F5269BFDLNMUOVPOV4STV908JR8UV0FI',
       },
     })
-      .then((response) => console.log(response))
+      .then((response) => response.json())
+      .then((data) => setVacancies(data.items))
       .catch((err) => console.log(err));
 
     // axios.get(`/employers/4651161/vacancies/active`, {
@@ -164,36 +164,21 @@ const Vacancies: FC<IProps> = () => {
         <h1 className="Vacancies-title">
           <b>Актуальные вакансии</b>
         </h1>
-
-        <div className="Vacancies-Block">
-          <p className="Vacancies-Parapraht">названия вакансии</p>
-          <p className="Vacancies-Parapraht2">регион</p>
-          <p className="Vacancies-Parapraht2">структурного подразделения</p>
-          <p className="Vacancies-Parapraht3">зарплата</p>
-          <Button className="Vacancies-Button">Откликнуться</Button>
-        </div>
-        <div className="Vacancies-Block">
-          <p className="Vacancies-Parapraht">названия вакансии</p>
-          <p className="Vacancies-Parapraht2">регион</p>
-          <p className="Vacancies-Parapraht2">структурного подразделения</p>
-          <p className="Vacancies-Parapraht3">зарплата</p>
-          <Button className="Vacancies-Button">Откликнуться</Button>
-        </div>
-        <div className="Vacancies-Block">
-          <p className="Vacancies-Parapraht">названия вакансии</p>
-          <p className="Vacancies-Parapraht2">регион</p>
-          <p className="Vacancies-Parapraht2">структурного подразделения</p>
-          <p className="Vacancies-Parapraht3">зарплата</p>
-
-          <Button className="Vacancies-Button">Откликнуться</Button>
-        </div>
-        <div className="Vacancies-Block">
-          <p className="Vacancies-Parapraht">названия вакансии</p>
-          <p className="Vacancies-Parapraht2">регион</p>
-          <p className="Vacancies-Parapraht2">структурного подразделения</p>
-          <p className="Vacancies-Parapraht3">зарплата</p>
-          <Button className="Vacancies-Button">Откликнуться</Button>
-        </div>
+        {vacancies.map((v: any) => (
+          <div key={v.id} className="Vacancies-Block">
+            <p className="Vacancies-Parapraht">{v.name}</p>
+            <p className="Vacancies-Parapraht2">
+              {v.address || v.area.name || 'Не указан регион'}
+            </p>
+            <p className="Vacancies-Parapraht2">Нет данных</p>
+            <p className="Vacancies-Parapraht3">
+              {v.salary.from + v.salary.currency}
+            </p>
+            <a href={v.alternate_url} target="_blank">
+              <Button className="Vacancies-Button">Откликнуться</Button>
+            </a>
+          </div>
+        ))}
 
         <div className="Vacancies-Contener mt-5">
           <div>
