@@ -174,7 +174,7 @@ const Vacancies: FC<IProps> = () => {
             <p className="Vacancies-Parapraht3">
               {v.salary.from + v.salary.currency}
             </p>
-            <a href={v.alternate_url} target="_blank">
+            <a href={v.alternate_url}>
               <Button className="Vacancies-Button">Откликнуться</Button>
             </a>
           </div>
