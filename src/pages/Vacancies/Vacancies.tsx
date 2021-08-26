@@ -72,7 +72,7 @@ const Vacancies: FC<IProps> = () => {
     // refresh_token: "VMUEVVP040CLLQ4HDDK35E7O8UP9K1IVC67PBKL7AQAJ9E7405HGIJ3NKCPG3JJ1"
     // token_type: "bearer"
 
-    fetch(`/employers/4651161/vacancies/active`, {
+    fetch(`/employers/4651161/vacancies/active?manager_id=7019987`, {
       headers: {
         Authorization:
           'Bearer H49PB1QHDOF0OKEO3V80PKS057LL7UA7F5269BFDLNMUOVPOV4STV908JR8UV0FI',
@@ -166,13 +166,19 @@ const Vacancies: FC<IProps> = () => {
         </h1>
         {vacancies.map((v: any) => (
           <div key={v.id} className="Vacancies-Block">
-            <p className="Vacancies-Parapraht">{v.name}</p>
-            <p className="Vacancies-Parapraht2">
-              {v.address || v.area.name || 'Не указан регион'}
+            <p className="Vacancies-Parapraht" style={{ width: '40%' }}>
+              {v.name}
             </p>
-            <p className="Vacancies-Parapraht2">Нет данных</p>
-            <p className="Vacancies-Parapraht3">
-              {v.salary.from + v.salary.currency}
+            <p className="Vacancies-Parapraht2" style={{ width: '20%' }}>
+              {v.address?.city || v.area.name || 'Не указан регион'}
+            </p>
+            <p className="Vacancies-Parapraht2" style={{ width: '10%' }}>
+              {v.employer.name}
+            </p>
+            <p
+              className="Vacancies-Parapraht3"
+              style={{ width: '20%', textAlign: 'center' }}>
+              {(v.salary?.from || '') + (v.salary?.currency || '')}
             </p>
             <a href={v.alternate_url}>
               <Button className="Vacancies-Button">Откликнуться</Button>
