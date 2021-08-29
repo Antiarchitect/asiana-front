@@ -78,7 +78,10 @@ const Vacancies: FC<IProps> = () => {
           'Bearer H49PB1QHDOF0OKEO3V80PKS057LL7UA7F5269BFDLNMUOVPOV4STV908JR8UV0FI',
       },
     })
-      .then((response) => response.json())
+      .then((response) => {
+        console.log('response');
+        return response.json();
+      })
       .then((data) => setVacancies(data.items))
       .catch((err) => console.log(err));
 
