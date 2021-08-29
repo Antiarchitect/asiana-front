@@ -72,6 +72,7 @@ const Vacancies: FC<IProps> = () => {
     // refresh_token: "VMUEVVP040CLLQ4HDDK35E7O8UP9K1IVC67PBKL7AQAJ9E7405HGIJ3NKCPG3JJ1"
     // token_type: "bearer"
 
+    // /employers/4651161/vacancies/active?manager_id=7019987
     fetch(
       `https://api.hh.ru/employers/4651161/vacancies/active?manager_id=7019987`,
       {
