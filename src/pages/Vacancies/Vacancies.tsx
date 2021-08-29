@@ -72,12 +72,15 @@ const Vacancies: FC<IProps> = () => {
     // refresh_token: "VMUEVVP040CLLQ4HDDK35E7O8UP9K1IVC67PBKL7AQAJ9E7405HGIJ3NKCPG3JJ1"
     // token_type: "bearer"
 
-    fetch(`/employers/4651161/vacancies/active?manager_id=7019987`, {
-      headers: {
-        Authorization:
-          'Bearer H49PB1QHDOF0OKEO3V80PKS057LL7UA7F5269BFDLNMUOVPOV4STV908JR8UV0FI',
+    fetch(
+      `https://api.hh.ru/employers/4651161/vacancies/active?manager_id=7019987`,
+      {
+        headers: {
+          Authorization:
+            'Bearer H49PB1QHDOF0OKEO3V80PKS057LL7UA7F5269BFDLNMUOVPOV4STV908JR8UV0FI',
+        },
       },
-    })
+    )
       .then((response) => {
         console.log('response');
         return response.json();
