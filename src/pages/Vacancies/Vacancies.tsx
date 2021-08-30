@@ -13,6 +13,7 @@ import { Input } from 'antd';
 import { Checkbox } from 'antd';
 import DemoCarousel from '../../components/DemoCarousel/DemoCarousel';
 import InputMask from 'react-input-mask';
+import { Table } from 'antd';
 
 interface IExternalProps {}
 
@@ -20,7 +21,7 @@ interface IProps extends IExternalProps {}
 
 const Vacancies: FC<IProps> = () => {
   const { TextArea } = Input;
-  const [vacancies, setVacancies] = useState([]);
+  const [vacancies, setVacancies] = useState<any>([]);
 
   // const authHHru = () => {
   //   axios.get(`/employers/4651161/vacancies/active`, {
@@ -74,6 +75,7 @@ const Vacancies: FC<IProps> = () => {
 
     // "proxy": "https://api.hh.ru"
     // /employers/4651161/vacancies/active?manager_id=7019987
+    // https://api.hh.ru/employers/4651161/vacancies/active?manager_id=7019987
     fetch(
       `https://api.hh.ru/employers/4651161/vacancies/active?manager_id=7019987`,
       {
@@ -160,6 +162,49 @@ const Vacancies: FC<IProps> = () => {
   //   console.log(a);
   // }
 
+  const columns = [
+    {
+      title: <b>Название</b>,
+      dataIndex: 'name',
+      key: 'name',
+    },
+    {
+      title: <b>Адрес</b>,
+      dataIndex: 'address',
+      key: 'address',
+      render(adr: any) {
+        return adr?.city || 'Не указан адрес';
+      },
+    },
+    {
+      title: <b>Работодатель</b>,
+      dataIndex: 'employer',
+      key: 'employer',
+      render(em: any) {
+        return em.name;
+      },
+    },
+    {
+      title: <b>Зарплата</b>,
+      dataIndex: 'salary',
+      key: 'salary',
+      render(salary: any) {
+        return salary?.from + salary?.currency;
+      },
+    },
+    {
+      title: '',
+      key: 'button',
+      render(v: any) {
+        return (
+          <a href={v.alternate_url}>
+            <Button className="Vacancies-Button">Откликнуться</Button>
+          </a>
+        );
+      },
+    },
+  ];
+
   return (
     <div className="page-with-header">
       <div className="container">
@@ -172,7 +217,14 @@ const Vacancies: FC<IProps> = () => {
         <h1 className="Vacancies-title">
           <b>Актуальные вакансии</b>
         </h1>
-        {vacancies.map((v: any) => (
+        <Table
+          dataSource={vacancies.map((item: any) => ({ ...item, button: true }))}
+          pagination={{ pageSize: 5 }}
+          loading={!vacancies.length}
+          columns={columns}
+        />
+
+        {/* {vacancies.map((v: any) => (
           <div key={v.id} className="Vacancies-Block">
             <p className="Vacancies-Parapraht" style={{ width: '40%' }}>
               {v.name}
@@ -192,7 +244,7 @@ const Vacancies: FC<IProps> = () => {
               <Button className="Vacancies-Button">Откликнуться</Button>
             </a>
           </div>
-        ))}
+        ))} */}
 
         <div className="Vacancies-Contener mt-5">
           <div>
