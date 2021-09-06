@@ -79,11 +79,11 @@ const Vacancies: FC<IProps> = () => {
     // https://api.hh.ru/employers/4651161/vacancies/active?manager_id=7019987
 
     const refresh_token =
-      'MRARQPO6CHS6NUGSO3JI3DL3U0OVRPP4LSLQAR3VNE0HBV0PH0ADF2KMSINNMLIQ' ||
-      localStorage.getItem('refresh_token_asiana');
+      localStorage.getItem('refresh_token_asiana') ||
+      'MRARQPO6CHS6NUGSO3JI3DL3U0OVRPP4LSLQAR3VNE0HBV0PH0ADF2KMSINNMLIQ';
     let access_token =
-      'NJSVS8SJJ03U425PGO11ARSKAN0IQBCL1MRR3A4FGB2OBFP7QI8ODUDF72O3VS10' ||
-      localStorage.getItem('access_token_asiana');
+      localStorage.getItem('access_token_asiana') ||
+      'NJSVS8SJJ03U425PGO11ARSKAN0IQBCL1MRR3A4FGB2OBFP7QI8ODUDF72O3VS10';
 
     // step for update access token
     const formData = new FormData();
