@@ -14,6 +14,7 @@ import { Checkbox } from 'antd';
 import DemoCarousel from '../../components/DemoCarousel/DemoCarousel';
 import InputMask from 'react-input-mask';
 import { Table } from 'antd';
+import axios from 'axios';
 
 interface IExternalProps {}
 
@@ -40,11 +41,11 @@ const Vacancies: FC<IProps> = () => {
 
   // Запрос авторизации приложения в hh-api
 
-  const authHHru = () => {
+  const authHHru = async () => {
     // const local = window.location;
 
-    // const code =
-    //   'NR8D7SD5A586KH6I7ORPFL4R293F16KI93QLJGE1PDB3VT28MD1IRO8CDTPP62NU';
+    const code =
+      'SUPLG27KI3AJUNS73LJ6CR29AGIUQNQTG5F2KJ2PCT52O2M0U6V4AAC3Q8RCDI2O';
 
     // step 1, auth for hh.ru
     // window.location.replace(`https://hh.ru/oauth/authorize?response_type=code&client_id=SAV2FKJST8FV0O3DNOKAV836EVCPRB3RP3KGVAN4K7I5905V56B2F6M4AFH9R8F3`)
@@ -68,99 +69,78 @@ const Vacancies: FC<IProps> = () => {
 
     // step 3, get vacancies with access token
 
-    // access_token: "H49PB1QHDOF0OKEO3V80PKS057LL7UA7F5269BFDLNMUOVPOV4STV908JR8UV0FI"
+    // access_token: "NJSVS8SJJ03U425PGO11ARSKAN0IQBCL1MRR3A4FGB2OBFP7QI8ODUDF72O3VS10"
     // expires_in: 1209599
-    // refresh_token: "VMUEVVP040CLLQ4HDDK35E7O8UP9K1IVC67PBKL7AQAJ9E7405HGIJ3NKCPG3JJ1"
+    // refresh_token: "MRARQPO6CHS6NUGSO3JI3DL3U0OVRPP4LSLQAR3VNE0HBV0PH0ADF2KMSINNMLIQ"
     // token_type: "bearer"
 
     // "proxy": "https://api.hh.ru"
     // /employers/4651161/vacancies/active?manager_id=7019987
     // https://api.hh.ru/employers/4651161/vacancies/active?manager_id=7019987
-    fetch(
-      `https://api.hh.ru/employers/4651161/vacancies/active?manager_id=7019987`,
-      {
-        headers: {
-          Authorization:
-            'Bearer H49PB1QHDOF0OKEO3V80PKS057LL7UA7F5269BFDLNMUOVPOV4STV908JR8UV0FI',
+
+    const refresh_token =
+      'MRARQPO6CHS6NUGSO3JI3DL3U0OVRPP4LSLQAR3VNE0HBV0PH0ADF2KMSINNMLIQ' ||
+      localStorage.getItem('refresh_token_asiana');
+    let access_token =
+      'NJSVS8SJJ03U425PGO11ARSKAN0IQBCL1MRR3A4FGB2OBFP7QI8ODUDF72O3VS10' ||
+      localStorage.getItem('access_token_asiana');
+
+    // step for update access token
+    const formData = new FormData();
+    formData.append(
+      'client_id',
+      'SAV2FKJST8FV0O3DNOKAV836EVCPRB3RP3KGVAN4K7I5905V56B2F6M4AFH9R8F3',
+    );
+    formData.append(
+      'client_secret',
+      'IUFQP01O9QSKMNAVNM3J78RJV5EGN2JALGHD5LBHG14UPG61DLQQL3JM0M52U4QO',
+    );
+    formData.append('grant_type', 'refresh_token');
+    formData.append('refresh_token', refresh_token);
+    formData.append('code', code);
+
+    try {
+      const response: any = await axios.post('/oauth/token', formData);
+
+      localStorage.setItem('access_token_asiana', response.access_token);
+      localStorage.setItem('refresh_token_asiana', response.refresh_token);
+
+      fetch(
+        `https://api.hh.ru/employers/4651161/vacancies/active?manager_id=7019987`,
+        {
+          headers: {
+            Authorization: `Bearer ${response.access_token || access_token}`,
+          },
         },
-      },
-    )
-      .then((response) => {
-        console.log('response');
-        return response.json();
-      })
-      .then((data) => setVacancies(data.items))
-      .catch((err) => console.log(err));
-
-    // axios.get(`/employers/4651161/vacancies/active`, {
-    //   withCredentials: false,
-    //   headers: {
-    //     'Content-Type': 'application/x-www-form-urlencoded',
-    //     'Authorization': 'Bearer H49PB1QHDOF0OKEO3V80PKS057LL7UA7F5269BFDLNMUOVPOV4STV908JR8UV0FI'
-    //   }
-    // })
-    //   .then(response => console.log(response))
-    //   .catch(err => console.log(err))
-
-    // const authHHru = () => {
-    // const formData = new FormData();
-    // formData.append('grant_type', 'client_credentials');
-    // formData.append('client_id','SAV2FKJST8FV0O3DNOKAV836EVCPRB3RP3KGVAN4K7I5905V56B2F6M4AFH9R8F3');
-    // formData.append('client_secret', 'IUFQP01O9QSKMNAVNM3J78RJV5EGN2JALGHD5LBHG14UPG61DLQQL3JM0M52U4QO');
-
-    // axios.post('/oauth/token', formData)
-    //   .then(data => {
-    //     console.log(data.status);
-    //     alert(1)
-    //   })
-    //   .catch(err => {
-    //     console.log('err', err);
-    //     setTimeout(authHHru, 10000)
-    //   });
-
-    //   fetch('https://hh.ru/oauth/token', {
-    //     method: 'POST',
-    //     mode: 'no-cors',
-    //     cache: 'no-cache',
-    //     headers: {
-    //         "Content-Type": 'multipart/form-data',
-    //     },
-    //     body: formData,
-    //   })
-    //     .then(data => {
-    //       console.log(data);
-    //     })
-    //     .catch(err => {
-    //       console.log(err);
-    //     });
-
-    // первый запрос
-
-    // fetch('/oauth/token?grant_type=client_credentials&client_id=SAV2FKJST8FV0O3DNOKAV836EVCPRB3RP3KGVAN4K7I5905V56B2F6M4AFH9R8F3&client_secret=IUFQP01O9QSKMNAVNM3J78RJV5EGN2JALGHD5LBHG14UPG61DLQQL3JM0M52U4QO', {
-    //   method: 'POST',
-    //   // mode: 'no-cors',
-    //   cache: 'no-cache',
-    //   // body: formData,
-    // })
-    //   .then(data => {
-    //     console.log(data.status);
-    //     if (data.status === 403) {
-    //       setTimeout(authHHru, 120000)
-    //     }
-    //   })
-    //   .catch(err => {
-    //     console.log('err', err);
-    //   });
+      )
+        .then((response) => {
+          console.log('response');
+          return response.json();
+        })
+        .then((data) => setVacancies(data.items))
+        .catch((err) => console.log(err));
+    } catch (err) {
+      fetch(
+        `https://api.hh.ru/employers/4651161/vacancies/active?manager_id=7019987`,
+        {
+          headers: {
+            Authorization: `Bearer ${access_token}`,
+          },
+        },
+      )
+        .then((response) => {
+          console.log('response');
+          return response.json();
+        })
+        .then((data) => setVacancies(data.items))
+        .catch((err) => console.log(err));
+    }
   };
 
   useEffect(() => {
     new WOW.WOW().init();
     authHHru();
   }, []);
-
-  // function onChange(a: any) {
-  //   console.log(a);
-  // }
 
   const columns = [
     {
@@ -217,12 +197,19 @@ const Vacancies: FC<IProps> = () => {
         <h1 className="Vacancies-title">
           <b>Актуальные вакансии</b>
         </h1>
-        <Table
-          dataSource={vacancies.map((item: any) => ({ ...item, button: true }))}
-          pagination={{ pageSize: 5 }}
-          loading={!vacancies.length}
-          columns={columns}
-        />
+        {!Array.isArray(vacancies) ? (
+          'Не удалось получить список вакансий'
+        ) : (
+          <Table
+            dataSource={vacancies.map((item: any) => ({
+              ...item,
+              button: true,
+            }))}
+            pagination={{ pageSize: 5 }}
+            loading={!vacancies.length}
+            columns={columns}
+          />
+        )}
 
         {/* {vacancies.map((v: any) => (
           <div key={v.id} className="Vacancies-Block">
