@@ -59,6 +59,11 @@ const NAVS: Nav['navs'] = [
           label: 'акции',
           link: '/actions',
         },
+        {
+          id: 5,
+          label: 'страницы сайта',
+          link: '/site-pages',
+        },
       ],
     },
   },

@@ -23,6 +23,7 @@ import Auth from '../../pages/Auth/Auth';
 import Header from '../Header/Header';
 import NewsDetails from '../../pages/NewsDetails/NewsDetails';
 import DataProcessing from '../../pages/DataProcessing/DataProcessing';
+import SitePages from '../../pages/SitePages/SitePages';
 
 function App() {
   return (
@@ -45,6 +46,8 @@ function App() {
             <Route path="/actions" component={Actions} />
             <Route path="/action/:id" component={Action} />
             <Route path="/data-processing" component={DataProcessing} />
+            <Route path="/site-pages" exact component={SitePages} />
+            <Route path="/site-pages/:id" component={SitePages} />
             <Redirect to="/" />
           </Switch>
         </div>
