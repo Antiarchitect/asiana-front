@@ -9,8 +9,6 @@ interface IProps extends IExternalProps, RouteComponentProps {}
 const SitePages: FC<IProps> = ({ match }) => {
   const [pages, setPages] = useState<any>(null);
   const [categories, setCategories] = useState([]);
-  const [list, setList] = useState([]);
-
   const { id }: any = match.params;
 
   useEffect(() => {
@@ -48,7 +46,7 @@ const SitePages: FC<IProps> = ({ match }) => {
         console.log('response');
         return response.json();
       })
-      .then((data) => setList(data.data))
+      .then((data) => console.log(data.data))
       .catch((err) => console.log(err));
   }, []);
 

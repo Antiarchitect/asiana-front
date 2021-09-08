@@ -24,7 +24,6 @@ import Header from '../Header/Header';
 import NewsDetails from '../../pages/NewsDetails/NewsDetails';
 import DataProcessing from '../../pages/DataProcessing/DataProcessing';
 import SitePages from '../../pages/SitePages/SitePages';
-import { useEffect } from 'react';
 
 function App() {
   return (
