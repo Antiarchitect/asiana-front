@@ -64,6 +64,7 @@ const SitePages: FC<IProps> = ({ match }) => {
             </p>
           ))
         )}
+        <Link to={`/site-pages/4`}>Тестовая страница</Link>
       </div>
     </div>
   );
