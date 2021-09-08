@@ -27,6 +27,19 @@ const AuthProvider: FC<AuthProviderProps> = ({
   const tokenRefresh = getCookie('refreshToken');
 
   useEffect(() => {
+    console.log(history);
+    const checkTitle = setInterval(
+      () =>
+        history.location.pathname.replace(/\/site-pages\/\d/, '') !== ''
+          ? (document.title = 'Кореана')
+          : void 0,
+      100,
+    );
+
+    return () => clearInterval(checkTitle);
+  }, []);
+
+  useEffect(() => {
     if (token) {
       setToken(token);
     }

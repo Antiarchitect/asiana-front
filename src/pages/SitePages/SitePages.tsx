@@ -33,7 +33,10 @@ const SitePages: FC<IProps> = ({ match }) => {
         console.log('response');
         return response.json();
       })
-      .then((data) => setPages(data.data))
+      .then((data) => {
+        setPages(data.data);
+        document.title = data.data.page.title;
+      })
       .catch((err) => console.log(err));
   }, [id]);
 
@@ -48,7 +51,7 @@ const SitePages: FC<IProps> = ({ match }) => {
       .then((data) => setList(data.data))
       .catch((err) => console.log(err));
   }, []);
-  console.log(list);
+
   return (
     <div className="page-with-header site-page">
       <div className="container pt-4 site-page">
