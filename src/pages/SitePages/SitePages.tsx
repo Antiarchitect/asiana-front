@@ -1,5 +1,6 @@
 import { FC, useEffect, useState } from 'react';
 import { Link, RouteComponentProps } from 'react-router-dom';
+import './SitePages.scss';
 
 interface IExternalProps {}
 
@@ -49,8 +50,8 @@ const SitePages: FC<IProps> = ({ match }) => {
   }, []);
   console.log(list);
   return (
-    <div className="page-with-header">
-      <div className="container pt-4">
+    <div className="page-with-header site-page">
+      <div className="container pt-4 site-page">
         {id ? (
           pages?.page ? (
             <div dangerouslySetInnerHTML={{ __html: pages?.page.content }} />
