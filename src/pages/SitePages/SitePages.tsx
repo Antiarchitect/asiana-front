@@ -47,7 +47,7 @@ const SitePages: FC<IProps> = ({ match }) => {
       .then((data) => setList(data.data))
       .catch((err) => console.log(err));
   }, []);
-
+  console.log(list);
   return (
     <div className="page-with-header">
       <div className="container pt-4">
