@@ -29,7 +29,7 @@ const AuthProvider: FC<AuthProviderProps> = ({
   useEffect(() => {
     let checkTitle = setInterval(
       () =>
-        history.location.pathname.replace(/\/site-pages\/\d/, '') !== ''
+        history.location.pathname.replace(/\/sitepages\/\d/, '') !== ''
           ? (document.title = 'Кореана')
           : void 0,
       100,

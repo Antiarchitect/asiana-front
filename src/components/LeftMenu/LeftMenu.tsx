@@ -14,6 +14,7 @@ const LeftMenu: FC<IProps> = () => {
         <div className="LeftMenu-div">
           <p className="LeftMenu-title-P">О компании</p>
         </div>
+
         <div className="LeftMenu-div">
           <Link to="/vacancies">
             {' '}

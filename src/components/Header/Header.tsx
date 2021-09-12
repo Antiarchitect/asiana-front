@@ -62,7 +62,7 @@ const NAVS: Nav['navs'] = [
         {
           id: 5,
           label: 'страницы сайта',
-          link: '/site-pages',
+          link: '/sitepages',
         },
       ],
     },
