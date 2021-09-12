@@ -53,7 +53,7 @@ const SitePages: FC<IProps> = ({ match }) => {
         document.title = data.data.page.title;
       })
       .catch((err) => console.log(err));
-  }, [name, categories]);
+  }, [name, categories, allPages]);
 
   useEffect(() => {
     fetch(
