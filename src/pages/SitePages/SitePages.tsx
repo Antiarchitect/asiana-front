@@ -34,7 +34,7 @@ const SitePages: FC<IProps> = ({ match }) => {
     }
 
     const find = allPages.find(
-      (c: any) => c.page.title === name.replace(/\-/g, ' '),
+      (c: any) => c.page.title === name.replace(/\-/g, ' '), // eslint-disable-line
     );
 
     if (!find) {
