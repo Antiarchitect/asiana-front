@@ -33,7 +33,9 @@ const SitePages: FC<IProps> = ({ match }) => {
       return;
     }
 
-    const find = allPages.find((c: any) => c.page.title === name);
+    const find = allPages.find(
+      (c: any) => c.page.title === name.replace(/\-/g, ' '),
+    );
 
     if (!find) {
       return;
@@ -94,7 +96,7 @@ const SitePages: FC<IProps> = ({ match }) => {
               <p key={key}>
                 <Link
                   className="SitePages-title"
-                  to={`/sitepages/${item.name}`}>
+                  to={`/sitepages/${item.name.replace(/\s/g, '-')}`}>
                   {item.name}
                 </Link>
               </p>
@@ -106,7 +108,9 @@ const SitePages: FC<IProps> = ({ match }) => {
         {allPages.map(({ page }: any) => (
           <div className="SitePages-div">
             <p key={page.id}>
-              <Link className="SitePages-title" to={`/sitepages/${page.title}`}>
+              <Link
+                className="SitePages-title"
+                to={`/sitepages/${page.title.replace(/\s/g, '-')}`}>
                 {page.title}
               </Link>
             </p>
