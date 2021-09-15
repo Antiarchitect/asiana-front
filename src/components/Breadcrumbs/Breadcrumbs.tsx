@@ -15,7 +15,7 @@ const BreadcrumbsComponent = () => {
     let itemLabel = item;
 
     if (itemLabel.includes('-')) {
-      itemLabel = itemLabel.replace('-', '');
+      itemLabel = itemLabel.replace(/\-/g, ' ');
     }
 
     return itemLabel
@@ -37,7 +37,9 @@ const BreadcrumbsComponent = () => {
 
         return (
           <Breadcrumb.Item key={index}>
-            <Link to={`/${route.toLowerCase()}`}>{route}</Link>
+            <Link to={`/${route.replace(/\s/g, '-').toLowerCase()}`}>
+              {route}
+            </Link>
           </Breadcrumb.Item>
         );
       })}
