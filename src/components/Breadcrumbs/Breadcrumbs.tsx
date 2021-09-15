@@ -15,7 +15,7 @@ const BreadcrumbsComponent = () => {
     let itemLabel = item;
 
     if (itemLabel.includes('-')) {
-      itemLabel = itemLabel.replace(/\-/g, ' ');
+      itemLabel = itemLabel.replace(/\-/g, ' '); // eslint-disable-line
     }
 
     return itemLabel
