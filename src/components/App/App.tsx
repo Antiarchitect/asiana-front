@@ -47,7 +47,8 @@ function App() {
             <Route path="/action/:id" component={Action} />
             <Route path="/data-processing" component={DataProcessing} />
             <Route path="/sitepages" exact component={SitePages} />
-            <Route path="/sitepages/:name" component={SitePages} />
+            <Route path="/sitepages/:name" exact component={SitePages} />
+            <Route path="/sitepages/subcategories/:id" component={SitePages} />
             <Redirect to="/" />
           </Switch>
         </div>
