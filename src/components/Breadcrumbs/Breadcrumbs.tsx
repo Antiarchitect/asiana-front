@@ -20,11 +20,11 @@ const BreadcrumbsComponent = () => {
 
     return itemLabel
       .split('')
+      .filter((c) => !Number(c))
       .map((c, i) => (i === 0 ? c.toUpperCase() : c))
       .join('');
   });
 
-  console.log(navs);
   return (
     <Breadcrumb>
       <Breadcrumb.Item>
