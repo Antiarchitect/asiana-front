@@ -102,7 +102,7 @@ const SitePages: FC<IProps> = ({ match, history }) => {
         document.title = data.data.page.title;
       })
       .catch((err) => console.log(err));
-  }, [name, categories]);
+  }, [name, categories.subTitels]);
 
   return (
     <div className="page-with-header site-page">
