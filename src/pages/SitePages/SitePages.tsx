@@ -96,7 +96,7 @@ const SitePages: FC<IProps> = ({ match, history }) => {
     }
 
     fetch(
-      `https://test-rest-api.site/api/1/mobile/static/${3}/get_category_pages?token=b4831f21df6202f5bacade4b7bbc3e5c`,
+      `https://test-rest-api.site/api/1/mobile/static/${id}/get_category_pages?token=b4831f21df6202f5bacade4b7bbc3e5c`,
     )
       .then((response) => {
         console.log('response');
