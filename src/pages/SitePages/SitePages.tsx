@@ -30,7 +30,7 @@ const Tab: FC<any> = ({ name, id }) => {
 const SitePages: FC<IProps> = ({ match, history }) => {
   const [pages, setPages] = useState<any>(null);
   const [categories, setCategories] = useState<any>([]);
-  const { name, id }: any = match.params;
+  const { name, id, subId }: any = match.params;
 
   useEffect(() => {
     fetch(
@@ -46,6 +46,23 @@ const SitePages: FC<IProps> = ({ match, history }) => {
 
   const [subTitels, setSubTitles] = useState<any[]>([]);
   const [loadTites, setLoadTitels] = useState(false);
+  const [allPages, setAllPages] = useState<any[]>([]);
+
+  const activePage = allPages.find(
+    ({ page }) => page.title === name?.replace(/\-/g, ' '),
+  ); // eslint-disable-line
+
+  useEffect(() => {
+    fetch(
+      `https://test-rest-api.site/api/1/mobile/static/get_pages/?token=b4831f21df6202f5bacade4b7bbc3e5c`,
+    )
+      .then((response) => {
+        console.log('response');
+        return response.json();
+      })
+      .then((data) => setAllPages(data.data))
+      .catch((err) => console.log(err));
+  }, []);
 
   useEffect(() => {
     if (!id) {
@@ -74,19 +91,9 @@ const SitePages: FC<IProps> = ({ match, history }) => {
   }, [id]);
 
   useEffect(() => {
-    if (!name) {
+    if (!subId) {
       return;
     }
-
-    const find = subTitels.find(
-      (c: any) => c.name === name.replace(/\-/g, ' '), // eslint-disable-line
-    );
-
-    if (!find) {
-      return;
-    }
-
-    const { id } = find;
 
     fetch(
       `https://test-rest-api.site/api/1/mobile/static/${3}/get_category_pages?token=b4831f21df6202f5bacade4b7bbc3e5c`,
@@ -97,17 +104,17 @@ const SitePages: FC<IProps> = ({ match, history }) => {
       })
       .then((data) => {
         setPages(data.data);
-        document.title = data.data.page.title;
+        // document.title = data.data.page.title;
       })
       .catch((err) => console.log(err));
-  }, [name, categories, subTitels]);
+  }, [subId]);
 
   return (
     <div className="page-with-header site-page">
       <div className="container pt-4 site-page">
         <Breadcrumbs />
         <h1 className="mt-5">Страницы сайта</h1>
-        {name || id ? (
+        {name || id || subId ? (
           <Button
             onClick={() => history.goBack()}
             className=" SitePages-mb SitePages-div-button SitePages-title"
@@ -124,7 +131,7 @@ const SitePages: FC<IProps> = ({ match, history }) => {
                   <p>
                     <Link
                       className="SitePages-title"
-                      to={`/sitepages/${item.name.replace(/\s/g, '-')}`}>
+                      to={`/sitepages/subcategories/pages/${item.id}`}>
                       {item.name}
                     </Link>
                   </p>
@@ -134,12 +141,29 @@ const SitePages: FC<IProps> = ({ match, history }) => {
               <h3>Не найдены сабкатегории</h3>
             )}
           </Spin>
+        ) : subId ? (
+          <>
+            {Array.isArray(pages) &&
+              pages?.map((page: any) => (
+                <div key={page.id} className="SitePages-div">
+                  <p>
+                    <Link
+                      className="SitePages-title"
+                      to={`/sitepages/${page.title.replace(/\s/g, '-')}`}>
+                      {' '}
+                      {/* eslint-disable-line */}
+                      {page.title}
+                    </Link>
+                  </p>
+                </div>
+              ))}
+          </>
         ) : (
           <>
             {name ? (
-              pages?.page ? (
+              activePage ? (
                 <div
-                  dangerouslySetInnerHTML={{ __html: pages?.page.content }}
+                  dangerouslySetInnerHTML={{ __html: activePage?.page.content }}
                 />
               ) : (
                 <h3>Страница не найдена</h3>
