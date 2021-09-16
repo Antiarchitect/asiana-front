@@ -49,8 +49,12 @@ const SitePages: FC<IProps> = ({ match, history }) => {
   const [allPages, setAllPages] = useState<any[]>([]);
 
   const activePage = allPages.find(
-    ({ page }) => page.title === name?.replace(/\-/g, ' '),
-  ); // eslint-disable-line
+    ({ page }) => page.title === name?.replace(/\-/g, ' '), // eslint-disable-line
+  );
+
+  if (activePage) {
+    document.title = activePage.page.title;
+  }
 
   useEffect(() => {
     fetch(
@@ -96,7 +100,7 @@ const SitePages: FC<IProps> = ({ match, history }) => {
     }
 
     fetch(
-      `https://test-rest-api.site/api/1/mobile/static/${id}/get_category_pages?token=b4831f21df6202f5bacade4b7bbc3e5c`,
+      `https://test-rest-api.site/api/1/mobile/static/${subId}/get_category_pages?token=b4831f21df6202f5bacade4b7bbc3e5c`,
     )
       .then((response) => {
         console.log('response');
